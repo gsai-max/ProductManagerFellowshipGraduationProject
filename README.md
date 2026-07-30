@@ -154,9 +154,19 @@ npm run dev
 
 ---
 
-## Production Deployment (Render + Vercel)
+## Production Deployment (Railway + Vercel)
 
-### Backend Deployment on Render
+### Backend Deployment on Railway (Recommended)
+1. Log in to [Railway.com](https://railway.com) and click **New Project** → **Deploy from GitHub repo**.
+2. Select this GitHub repository (`ProductManagerFellowshipGraduationProject`).
+3. Railway automatically detects `railway.json` / `Dockerfile` and builds the FastAPI application.
+4. Under **Variables**, add required environment variables:
+   - `LLM_PROVIDER` = `groq`
+   - `LLM_API_KEY` = `your_groq_api_key`
+   - `LLM_MODEL` = `llama-3.1-8b-instant`
+5. Under **Settings** → **Networking**, click **Generate Domain** to get your public backend URL: `https://<your-app>.up.railway.app`.
+
+### Backend Deployment on Render (Alternative)
 1. Create a new **Web Service** on [Render.com](https://render.com).
 2. Connect this GitHub repository. Render reads [render.yaml](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/render.yaml) automatically.
 3. Set environment variables: `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`.
@@ -164,7 +174,7 @@ npm run dev
 
 ### Frontend Deployment on Vercel
 1. Import `frontend/` folder into [Vercel.com](https://vercel.com).
-2. Set Environment Variable: `VITE_API_URL=https://<your-backend-app>.onrender.com/api/v1`.
+2. Set Environment Variable: `VITE_API_URL=https://<your-backend-app>.up.railway.app/api/v1` (or Render URL).
 3. Deploy. Vercel issues live URL: `https://<your-dashboard-app>.vercel.app`.
 
 ---

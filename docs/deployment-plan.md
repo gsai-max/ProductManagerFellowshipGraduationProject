@@ -85,7 +85,34 @@ Before deploying, ensure all required environment variables are set in your depl
 
 ## 3. Backend Deployment
 
-### Option A: Render Deployment (Recommended)
+### Option A: Railway Deployment (Recommended)
+
+1. **Deploy Repository**:
+   * Log into [Railway.com](https://railway.com).
+   * Click **New Project** $\rightarrow$ **Deploy from GitHub repo** $\rightarrow$ Select `ProductManagerFellowshipGraduationProject`.
+   * Railway automatically reads `railway.json` / `Dockerfile` and initializes the build process.
+
+2. **Configure Environment Variables**:
+   * In Railway Project Dashboard $\rightarrow$ **Variables**, add:
+     - `LLM_PROVIDER` = `groq`
+     - `LLM_API_KEY` = `your_groq_api_key`
+     - `LLM_MODEL` = `llama-3.1-8b-instant`
+     - `GROQ_API_KEY` = `your_groq_api_key`
+     - `GROQ_MODEL` = `llama-3.1-8b-instant`
+
+3. **Expose Networking Domain**:
+   * Go to **Settings** $\rightarrow$ **Networking** $\rightarrow$ **Generate Domain**.
+   * Copy the public URL (e.g. `https://<your-app>.up.railway.app`).
+
+4. **Verify Health Endpoint**:
+   ```powershell
+   curl https://<your-app>.up.railway.app/health
+   # Expected Output: {"status":"healthy"}
+   ```
+
+---
+
+### Option B: Render Deployment (Alternative)
 
 1. **Create Render Web Service**:
    * Log into [Render.com](https://render.com).

@@ -40,6 +40,13 @@ def root():
     return RedirectResponse(url="/docs")
 
 
+@app.get("/health", include_in_schema=False)
+def health_check():
+    """Health check endpoint for Railway & cloud deployment monitoring."""
+    return {"status": "healthy"}
+
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.app.api_server:app", host="0.0.0.0", port=8000, reload=True)
