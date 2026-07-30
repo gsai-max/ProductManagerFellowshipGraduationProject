@@ -4,7 +4,10 @@ import os
 import random
 from typing import List
 
-from app_store_scraper import AppStore
+try:
+    from app_store_scraper import AppStore
+except Exception:
+    AppStore = None
 
 from src.app.config import settings
 from src.app.models.domain import RawFeedbackRecord
@@ -25,39 +28,40 @@ class AppStoreScraper:
         os.makedirs(self.output_dir, exist_ok=True)
         all_records: List[RawFeedbackRecord] = []
 
-        try:
-            app = AppStore(country=self.country, app_name=self.app_name, app_id=self.app_id)
-            app.review(how_many=min(self.max_reviews, 200))
+        if AppStore is not None:
+            try:
+                app = AppStore(country=self.country, app_name=self.app_name, app_id=self.app_id)
+                app.review(how_many=min(self.max_reviews, 200))
 
-            for r in app.reviews:
-                content = r.get("review", "").strip()
-                if not content:
-                    continue
+                for r in getattr(app, "reviews", []):
+                    content = r.get("review", "").strip()
+                    if not content:
+                        continue
 
-                review_date = (
-                    r["date"].strftime("%Y-%m-%d")
-                    if r.get("date")
-                    else datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                )
-                rec_id = f"as_{hashlib.sha256((content + review_date).encode()).hexdigest()[:12]}"
+                    review_date = (
+                        r["date"].strftime("%Y-%m-%d")
+                        if r.get("date")
+                        else datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                    )
+                    rec_id = f"as_{hashlib.sha256((content + review_date).encode()).hexdigest()[:12]}"
 
-                record = RawFeedbackRecord(
-                    id=rec_id,
-                    source="app_store",
-                    platform="Apple App Store",
-                    text=content,
-                    rating=float(r.get("rating", 0)),
-                    date=review_date,
-                    author=r.get("userName", "ios_user"),
-                    metadata={
-                        "title": r.get("title"),
-                        "is_edited": r.get("isEdited", False),
-                    },
-                    scraped_at=datetime.now(timezone.utc).isoformat(),
-                )
-                all_records.append(record)
-        except Exception as e:
-            print(f"App Store scraping warning: {e}. Generating fallback sample dataset.")
+                    record = RawFeedbackRecord(
+                        id=rec_id,
+                        source="app_store",
+                        platform="Apple App Store",
+                        text=content,
+                        rating=float(r.get("rating", 0)),
+                        date=review_date,
+                        author=r.get("userName", "ios_user"),
+                        metadata={
+                            "title": r.get("title"),
+                            "is_edited": r.get("isEdited", False),
+                        },
+                        scraped_at=datetime.now(timezone.utc).isoformat(),
+                    )
+                    all_records.append(record)
+            except Exception as e:
+                print(f"App Store scraping warning: {e}. Generating fallback sample dataset.")
 
         if len(all_records) < 500:
             fallback_records = self._generate_fallback_dataset(target_count=2500)
