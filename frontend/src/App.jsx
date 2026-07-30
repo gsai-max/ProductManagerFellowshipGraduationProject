@@ -16,10 +16,23 @@ import ArchetypeSegmentGrid from './components/ArchetypeSegmentGrid';
 import ContradictionCard from './components/ContradictionCard';
 import ConsensusReportModal from './components/ConsensusReportModal';
 
-import { Target, Layers, BarChart2, Zap, RefreshCw, X, Sparkles, Network, ShieldCheck, HeartHandshake, Repeat, GitCompare, Users } from 'lucide-react';
+import { 
+  Home, 
+  Terminal, 
+  Sparkles, 
+  Lightbulb, 
+  Search, 
+  ShieldCheck, 
+  GitFork, 
+  Target, 
+  Network, 
+  BarChart2, 
+  RefreshCw, 
+  X 
+} from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('insights'); // 'insights' | 'multi_agent' | 'analytics'
+  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'sandbox' | 'themes' | 'insights' | 'sources' | 'validation'
   const [selectedRQ, setSelectedRQ] = useState('all');
   const [isConsensusModalOpen, setIsConsensusModalOpen] = useState(false);
 
@@ -90,7 +103,7 @@ export default function App() {
       if (results[15].status === 'fulfilled') setValidationReport(results[15].value);
 
     } catch (err) {
-      console.warn("API fetch error, components will use built-in fallback datasets:", err);
+      console.warn("API fetch error, components will use fallback datasets:", err);
     } finally {
       setLoading(false);
     }
@@ -119,174 +132,205 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* Sidebar Navigation */}
-      <aside className="sidebar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', padding: '0 8px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 800 }}>
-            ⚡
-          </div>
-          <div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em', fontFamily: 'var(--font-heading)' }}>
-              Blinkit AI
-            </div>
-            <div style={{ fontSize: '0.72rem', color: '#10b981', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Discovery Engine
-            </div>
-          </div>
+      {/* Top Header Navbar */}
+      <header className="top-nav-header">
+        <div className="logo-container">
+          <span className="logo-blink">Blink</span>
+          <span className="logo-it">it</span>
+          <span className="logo-divider">|</span>
+          <span className="logo-subtitle">Discovery Engine</span>
         </div>
 
-        {/* Section Tabs */}
-        <div style={{ marginBottom: '24px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <button
+        <nav className="top-nav-tabs">
+          <button 
+            className={`nav-tab-btn ${activeTab === 'home' ? 'active' : ''}`}
+            onClick={() => setActiveTab('home')}
+          >
+            <Home size={18} /> Home
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'sandbox' ? 'active' : ''}`}
+            onClick={() => setActiveTab('sandbox')}
+          >
+            <Terminal size={18} /> Sandbox
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'themes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('themes')}
+          >
+            <Sparkles size={18} /> AI Themes
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'insights' ? 'active' : ''}`}
             onClick={() => setActiveTab('insights')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: 'none',
-              background: activeTab === 'insights' ? 'rgba(16,185,129,0.18)' : 'transparent',
-              color: activeTab === 'insights' ? '#34d399' : '#94a3b8',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              textAlign: 'left'
-            }}
           >
-            <Target size={16} /> Product Insights
+            <Lightbulb size={18} /> Core Insights
           </button>
-          <button
-            onClick={() => setActiveTab('multi_agent')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: 'none',
-              background: activeTab === 'multi_agent' ? 'rgba(168,85,247,0.18)' : 'transparent',
-              color: activeTab === 'multi_agent' ? '#c084fc' : '#94a3b8',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              textAlign: 'left'
-            }}
+          <button 
+            className={`nav-tab-btn ${activeTab === 'sources' ? 'active' : ''}`}
+            onClick={() => setActiveTab('sources')}
           >
-            <Network size={16} /> Behavior Graph & 6 Agents
+            <Search size={18} /> Source Explorer
           </button>
-          <button
-            onClick={() => setActiveTab('analytics')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: 'none',
-              background: activeTab === 'analytics' ? 'rgba(56,189,248,0.18)' : 'transparent',
-              color: activeTab === 'analytics' ? '#38bdf8' : '#94a3b8',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              textAlign: 'left'
-            }}
+          <button 
+            className={`nav-tab-btn ${activeTab === 'validation' ? 'active' : ''}`}
+            onClick={() => setActiveTab('validation')}
           >
-            <BarChart2 size={16} /> Source & Theme Analytics
+            <ShieldCheck size={18} /> Validation
           </button>
-        </div>
+        </nav>
+      </header>
 
-        {/* Research Questions Filter */}
-        <ResearchQuestionNav selectedRQ={selectedRQ} onSelectRQ={setSelectedRQ} />
-
-        {/* Consensus Modal Trigger Button */}
-        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
-          <button
-            onClick={() => setIsConsensusModalOpen(true)}
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '8px',
-              border: '1px solid rgba(16,185,129,0.3)',
-              background: 'rgba(16,185,129,0.1)',
-              color: '#34d399',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justify: 'center',
-              gap: '6px'
-            }}
-          >
-            <ShieldCheck size={16} /> Multi-LLM Consensus
-          </button>
-        </div>
-
-        <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--border-color)', fontSize: '0.75rem', color: '#64748b' }}>
-          <div>Blinkit Product Fellowship</div>
-          <div style={{ color: '#94a3b8', marginTop: '2px' }}>Graduation Project 2026</div>
-        </div>
-      </aside>
-
-      {/* Main Dashboard Content */}
+      {/* Main Container */}
       <main className="main-content">
-        <ExecutiveSummary 
-          summaryData={summaryData} 
-          totalInsights={insights.length || 10}
-          totalThemes={themesData?.total_themes || 12}
-          rqCoverage={statusData?.details?.rq_coverage || '100%'}
-          onOpenConsensus={() => setIsConsensusModalOpen(true)}
-        />
+        
+        {/* HOME TAB VIEW */}
+        {activeTab === 'home' && (
+          <div className="animate-fade-in">
+            {/* Hero Section */}
+            <section className="hero-section">
+              <span className="glass-pill">
+                AI-Powered Research Project
+              </span>
+              <h1 className="hero-title">Discovery Engine</h1>
+              <p className="hero-subtitle">
+                Analyzing thousands of user reviews with Python FastAPI & Google Gemini / Llama 3 to decode why users stick to their habits and how to unlock new product discovery in quick commerce.
+              </p>
 
-        <PipelineStatus statusData={statusData} onTriggerRun={handleTriggerRun} />
+              {/* 4 Stat Metric Cards */}
+              <div className="metrics-grid">
+                <div className="metric-card">
+                  <div className="metric-value">157,630</div>
+                  <div className="metric-label">Reviews Analyzed</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-value">10</div>
+                  <div className="metric-label">Data Sources</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-value">12</div>
+                  <div className="metric-label">Global Themes</div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-value">93.3%</div>
+                  <div className="metric-label">AI Confidence</div>
+                </div>
+              </div>
+            </section>
 
-        {/* Navigation Tab Content */}
-        {activeTab === 'insights' && (
-          <>
-            {/* Closed-Loop Growth Intelligence Section */}
+            {/* How the Engine Works Section */}
+            <section className="flow-section">
+              <h2 className="flow-title">
+                <GitFork size={22} color="var(--accent-green)" /> How the Engine Works
+              </h2>
+              <p className="flow-subtitle">
+                A 4-stage automated pipeline powered by Python FastAPI & 6 AI Agents, from raw data to validated insights.
+              </p>
+
+              <div className="flow-grid">
+                <div className="flow-card">
+                  <div className="flow-step-num">1</div>
+                  <div className="flow-card-title">Multi-Source Scraping</div>
+                  <div className="flow-card-desc">
+                    Automated scrapers gather 157,630 items across 10 sources (Play Store, App Store, Reddit, Twitter, YouTube, Quora, Forums, Support, Zepto, Instamart).
+                  </div>
+                </div>
+
+                <div className="flow-card">
+                  <div className="flow-step-num">2</div>
+                  <div className="flow-card-title">Sentiment & Agent Analysis</div>
+                  <div className="flow-card-desc">
+                    Each feedback item is processed by 6 specialized AI agents for sentiment analysis, habit loops, JTBD needs, and friction points.
+                  </div>
+                </div>
+
+                <div className="flow-card">
+                  <div className="flow-step-num">3</div>
+                  <div className="flow-card-title">Theme Extraction</div>
+                  <div className="flow-card-desc">
+                    LLMs analyze the full corpus holistically, identifying 12 global behavioral themes and constructing an interconnected Behavior Graph.
+                  </div>
+                </div>
+
+                <div className="flow-card">
+                  <div className="flow-step-num">4</div>
+                  <div className="flow-card-title">Insight Synthesis</div>
+                  <div className="flow-card-desc">
+                    Themes are mapped against 8 research questions with Multi-LLM 2/3 majority consensus validation ensuring high accuracy.
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Executive Summary & North Star Metric */}
+            <ExecutiveSummary 
+              summaryData={summaryData} 
+              totalInsights={insights.length || 10}
+              totalThemes={themesData?.total_themes || 12}
+              rqCoverage={statusData?.details?.rq_coverage || '100%'}
+              onOpenConsensus={() => setIsConsensusModalOpen(true)}
+            />
+          </div>
+        )}
+
+        {/* SANDBOX TAB VIEW */}
+        {activeTab === 'sandbox' && (
+          <div className="animate-fade-in">
+            <PipelineStatus statusData={statusData} onTriggerRun={handleTriggerRun} />
             <HypothesisExperimentViewer 
               patterns={patterns} 
               hypotheses={hypotheses} 
               experiments={experiments} 
               onOutcomeLogged={fetchData} 
             />
+          </div>
+        )}
 
-            {/* Filter Indicator */}
+        {/* AI THEMES TAB VIEW */}
+        {activeTab === 'themes' && (
+          <div className="animate-fade-in">
+            <ThemeExplorer themesData={themesData} />
+          </div>
+        )}
+
+        {/* CORE INSIGHTS TAB VIEW */}
+        {activeTab === 'insights' && (
+          <div className="animate-fade-in">
+            <ResearchQuestionNav selectedRQ={selectedRQ} onSelectRQ={setSelectedRQ} />
+
             {selectedRQ !== 'all' && (
-              <div className="glass-card animate-fade-in" style={{ padding: '12px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderColor: 'rgba(16,185,129,0.4)', background: 'rgba(16,185,129,0.08)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: '#34d399', fontWeight: 600 }}>
-                  <Sparkles size={16} /> Filtering by Research Question: <span style={{ color: '#fff', fontWeight: 700 }}>{selectedRQ}</span>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({filteredInsights.length} insights match)</span>
+              <div className="glass-card" style={{ padding: '12px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderColor: 'var(--accent-green)', background: '#f0fdf4' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: '#166534', fontWeight: 600 }}>
+                  <Sparkles size={16} /> Filtering by Research Question: <span style={{ color: '#0f172a', fontWeight: 700 }}>{selectedRQ}</span>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 400 }}>({filteredInsights.length} insights match)</span>
                 </div>
                 <button 
                   onClick={() => setSelectedRQ('all')}
-                  style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }}
+                  style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }}
                 >
                   <X size={16} /> Reset Filter
                 </button>
               </div>
             )}
 
-            {/* Insights Section */}
             <section style={{ marginBottom: '40px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
                 <div>
-                  <h2 className="gradient-heading" style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '4px' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
                     Validated Product Insights
                   </h2>
-                  <p style={{ fontSize: '0.88rem', color: '#94a3b8' }}>
-                    Ranked strategic findings backed by multi-source evidence and representative quotes
+                  <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
+                    Strategic findings backed by multi-source evidence and 6 behavioral AI agents
                   </p>
                 </div>
-                <span className="glass-pill" style={{ color: '#34d399' }}>
-                  <Target size={12} /> {filteredInsights.length} Insights
+                <span className="glass-pill">
+                  <Target size={14} /> {filteredInsights.length} Insights
                 </span>
               </div>
 
               {loading && insights.length === 0 ? (
                 <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
-                  <RefreshCw size={24} className="animate-spin" style={{ margin: '0 auto 12px auto', color: '#10b981' }} />
+                  <RefreshCw size={24} className="animate-spin" style={{ margin: '0 auto 12px auto', color: 'var(--accent-green)' }} />
                   Loading customer intelligence insights...
                 </div>
               ) : (
@@ -295,32 +339,56 @@ export default function App() {
                 ))
               )}
             </section>
-          </>
+
+            {/* 6 AI Agent Behavioral Science Breakdown */}
+            <section style={{ marginTop: '48px' }}>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+                6 Behavioral Science AI Agents
+              </h2>
+              <HabitLoopVisualizer habitData={habitData} />
+              <EmotionSpectrumCard emotionData={emotionData} />
+              <JTBDMatrix jtbdData={jtbdData} />
+              <ArchetypeSegmentGrid archetypeData={archetypeData} />
+              <ContradictionCard contradictionData={contradictionData} />
+            </section>
+          </div>
         )}
 
-        {activeTab === 'multi_agent' && (
-          <section>
-            <BehaviorGraphView graphData={graphData} />
-            <HabitLoopVisualizer habitData={habitData} />
-            <EmotionSpectrumCard emotionData={emotionData} />
-            <JTBDMatrix jtbdData={jtbdData} />
-            <ArchetypeSegmentGrid archetypeData={archetypeData} />
-            <ContradictionCard contradictionData={contradictionData} />
-          </section>
+        {/* SOURCE EXPLORER TAB VIEW */}
+        {activeTab === 'sources' && (
+          <div className="animate-fade-in">
+            <SourceAnalytics 
+              summaryData={summaryData} 
+              sentimentData={sentimentData} 
+              categoryData={categoryData} 
+            />
+          </div>
         )}
 
-        {activeTab === 'analytics' && (
-          <section style={{ marginBottom: '40px' }}>
-            <ThemeExplorer themesData={themesData} />
-            <div style={{ marginTop: '32px' }}>
-              <SourceAnalytics 
-                summaryData={summaryData} 
-                sentimentData={sentimentData} 
-                categoryData={categoryData} 
-              />
+        {/* VALIDATION TAB VIEW */}
+        {activeTab === 'validation' && (
+          <div className="animate-fade-in">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                  Multi-LLM Consensus & Behavior Graph Validation
+                </h2>
+                <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
+                  2/3 majority rule validation across Groq, HuggingFace Llama 3, and Open Models
+                </p>
+              </div>
+              <button 
+                className="btn-primary"
+                onClick={() => setIsConsensusModalOpen(true)}
+              >
+                <ShieldCheck size={18} /> View Full Consensus Report
+              </button>
             </div>
-          </section>
+
+            <BehaviorGraphView graphData={graphData} />
+          </div>
         )}
+
       </main>
 
       {/* Consensus Modal Overlay */}

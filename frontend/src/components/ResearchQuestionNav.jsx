@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle, Filter, CheckCircle2 } from 'lucide-react';
+import { HelpCircle, CheckCircle2 } from 'lucide-react';
 
 export default function ResearchQuestionNav({ selectedRQ, onSelectRQ }) {
   const researchQuestions = [
@@ -15,12 +15,12 @@ export default function ResearchQuestionNav({ selectedRQ, onSelectRQ }) {
   ];
 
   return (
-    <div style={{ marginBottom: '24px' }}>
-      <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', tracking: '0.05em', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <HelpCircle size={14} style={{ color: '#10b981' }} /> Filter by Research Question
+    <div style={{ marginBottom: '24px', background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+      <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <HelpCircle size={14} style={{ color: '#129b48' }} /> Filter by Research Question
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px' }}>
         {researchQuestions.map((rq) => {
           const isSelected = selectedRQ === rq.id;
           return (
@@ -29,13 +29,13 @@ export default function ResearchQuestionNav({ selectedRQ, onSelectRQ }) {
               onClick={() => onSelectRQ(rq.id)}
               style={{
                 display: 'flex',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 gap: '10px',
                 padding: '10px 12px',
-                borderRadius: 'var(--radius-md)',
-                background: isSelected ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
-                border: isSelected ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid transparent',
-                color: isSelected ? '#34d399' : '#94a3b8',
+                borderRadius: '8px',
+                background: isSelected ? '#dcfce7' : '#ffffff',
+                border: isSelected ? '1px solid #bbf7d0' : '1px solid #e2e8f0',
+                color: isSelected ? '#15803d' : '#0f172a',
                 cursor: 'pointer',
                 textAlign: 'left',
                 width: '100%',
@@ -44,16 +44,16 @@ export default function ResearchQuestionNav({ selectedRQ, onSelectRQ }) {
             >
               <div style={{
                 minWidth: '24px', height: '24px', borderRadius: '6px',
-                background: isSelected ? '#10b981' : 'rgba(255,255,255,0.05)',
-                color: isSelected ? '#000' : '#64748b',
+                background: isSelected ? '#129b48' : '#f1f5f9',
+                color: isSelected ? '#ffffff' : '#64748b',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.75rem', fontWeight: 700, marginTop: '1px'
+                fontSize: '0.75rem', fontWeight: 800
               }}>
                 {rq.id === 'all' ? '*' : rq.id}
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: isSelected ? 700 : 500, color: isSelected ? '#f8fafc' : '#cbd5e1' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: isSelected ? 800 : 600, color: isSelected ? '#15803d' : '#0f172a' }}>
                   {rq.title}
                 </div>
                 <div style={{ fontSize: '0.74rem', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -61,7 +61,7 @@ export default function ResearchQuestionNav({ selectedRQ, onSelectRQ }) {
                 </div>
               </div>
 
-              {isSelected && <CheckCircle2 size={16} style={{ color: '#10b981', flexShrink: 0, marginTop: '2px' }} />}
+              {isSelected && <CheckCircle2 size={16} style={{ color: '#129b48', flexShrink: 0 }} />}
             </button>
           );
         })}
