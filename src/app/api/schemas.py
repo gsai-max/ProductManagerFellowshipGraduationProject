@@ -130,3 +130,33 @@ class ValidationReportResponse(BaseModel):
     consensus_report: Dict[str, Any] = Field(default_factory=dict)
     validation_report: Dict[str, Any] = Field(default_factory=dict)
     human_audit_report: Dict[str, Any] = Field(default_factory=dict)
+
+
+# ─── Part 2 Strategy API DTOs ───
+
+class HMWOpportunityListResponse(BaseModel):
+    total: int
+    opportunities: List[Dict[str, Any]]
+    meta: Dict[str, Any] = Field(default_factory=dict)
+
+
+class RICEListResponse(BaseModel):
+    total: int
+    selected_mvp: Dict[str, Any]
+    evaluations: List[Dict[str, Any]]
+    meta: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TelemetryEventResponse(BaseModel):
+    status: str = "success"
+    message: str
+    event_id: str
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+class MVPMetricsResponse(BaseModel):
+    metrics: Dict[str, Any]
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+

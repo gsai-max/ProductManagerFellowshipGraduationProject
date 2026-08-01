@@ -1,9 +1,51 @@
 // Auto-generated data file for the Discovery Engine Dashboard
 export const DISCOVERY_DATA = {
   "meta": {
-    "totalReviews": 2313,
-    "sourcesCount": 6,
-    "lastUpdated": "2026-07-24T16:34:12.673Z"
+    "totalRawReviews": 157630,
+    "normalizedCount": 5320,
+    "totalReviews": 5320,
+    "sourcesCount": 10,
+    "lastUpdated": "2026-08-01T21:46:00.000Z",
+    "surveySample": 100,
+    "coreThesis": "Blinkit does not primarily have a discovery-visibility problem. It has a risk-transfer problem."
+  },
+  "empiricalDataset": {
+    "totalRaw": 157630,
+    "normalizedSubset": 5320,
+    "ratingDistribution": [
+      { "star": "1.0 Star (Friction)", "count": 2302, "pct": 43.3, "context": "Hidden non-grocery navigation, handling fees, out of stock" },
+      { "star": "5.0 Stars (Delight)", "count": 1891, "pct": 35.5, "context": "10-minute grocery delivery speed" },
+      { "star": "4.0 Stars", "count": 539, "pct": 10.1, "context": "Good overall experience" },
+      { "star": "3.0 Stars", "count": 306, "pct": 5.8, "context": "Occasional delays/missing items" },
+      { "star": "2.0 Stars", "count": 256, "pct": 4.8, "context": "Subtle UI and pricing confusion" }
+    ],
+    "channels": [
+      { "name": "Google Play Store", "raw": 75000, "normalized": 5273 },
+      { "name": "Apple App Store", "raw": 20024, "normalized": 8 },
+      { "name": "Twitter / X", "raw": 20030, "normalized": 8 },
+      { "name": "Swiggy Instamart & Zepto", "raw": 20012, "normalized": 8 },
+      { "name": "Reddit", "raw": 10025, "normalized": 5 },
+      { "name": "DesiDime / Forums", "raw": 5020, "normalized": 4 },
+      { "name": "YouTube Comments", "raw": 5006, "normalized": 6 },
+      { "name": "Quora", "raw": 2503, "normalized": 3 },
+      { "name": "Support Tickets", "raw": 10, "normalized": 5 }
+    ]
+  },
+  "surveyMemo": {
+    "sampleSize": 100,
+    "explorers": { "low": 42, "moderate": 36, "high": 22 },
+    "barriers": [
+      { "name": "Relevance (46%)", "pct": 46, "desc": "Do not need products from other categories" },
+      { "name": "Trust (44%)", "pct": 44, "desc": "Distrust unfamiliar products / lack info (33%)" },
+      { "name": "Economic Risk (43%)", "pct": 43, "desc": "Fear of wasting money / high price perception (38%)" },
+      { "name": "Execution Cost (31%)", "pct": 31, "desc": "Want to checkout quickly / choice confusion (28%)" }
+    ],
+    "confidenceDrivers": [
+      { "driver": "Ratings & Reviews", "pct": 63 },
+      { "driver": "Free Samples / Micro-Trials", "pct": 56 },
+      { "driver": "Intent-Based Missions", "pct": 51 },
+      { "driver": "Checkout Sampling Intent", "pct": 39 }
+    ]
   },
   "sourceStats": {
     "app_store": 604,

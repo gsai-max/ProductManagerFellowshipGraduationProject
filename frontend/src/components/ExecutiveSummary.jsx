@@ -7,30 +7,30 @@ export default function ExecutiveSummary({ summaryData, totalInsights, totalThem
 
   const statCards = [
     {
-      title: 'Raw Scraped Payload',
-      value: totalReviews.toLocaleString(),
-      subtitle: 'Across 10 multi-channel sources',
+      title: 'Raw Scraped Corpus',
+      value: '157,630',
+      subtitle: '10 Channels: Play Store, App Store, Twitter, Reddit, Instamart, Zepto, YouTube, Quora, Forums, Support',
       icon: FileText,
       color: '#129b48',
     },
     {
-      title: 'Sources Ingested',
-      value: totalSources,
-      subtitle: 'App Store, Play Store, Reddit, Twitter, YouTube, Quora, Forums, Competitors',
+      title: 'Normalized Quality Subset',
+      value: '5,320',
+      subtitle: 'PII-stripped, deduplicated & sentiment-tagged records',
       icon: Layers,
       color: '#0284c7',
     },
     {
-      title: 'Consolidated Themes',
-      value: totalThemes || 12,
-      subtitle: 'Extracted pattern clusters',
+      title: '1.0★ Friction vs 5.0★ Delight',
+      value: '43.3% / 35.5%',
+      subtitle: '2,302 1-Star (UI/Fees/Stock) vs 1,891 5-Star (10-Min Speed)',
       icon: Sparkles,
       color: '#7c3aed',
     },
     {
-      title: 'Validated Insights',
-      value: totalInsights || 10,
-      subtitle: 'Backed by 2/3 Multi-LLM Consensus',
+      title: 'Survey Research Baseline',
+      value: 'n=100',
+      subtitle: '42% Low Explorers, 46% Relevance Barrier, 44% Trust Deficit',
       icon: Target,
       color: '#d97706',
     },
@@ -88,7 +88,9 @@ export default function ExecutiveSummary({ summaryData, totalInsights, totalThem
             </div>
             <div>
               <div style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>North Star Metric</div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>% MAC buying from ≥1 new category per month</div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                Increase % Monthly Active Customers purchasing from &ge;1 new category every month
+              </div>
             </div>
           </div>
           <div style={{ flex: 1, minWidth: '200px' }}>

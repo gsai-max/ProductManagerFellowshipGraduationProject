@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { DISCOVERY_DATA } from './data';
+import HMWOpportunityMatrix from './components/HMWOpportunityMatrix';
+import RICEStrategyTable from './components/RICEStrategyTable';
+import MissionIntelligencePlatform from './components/MissionIntelligencePlatform';
+import AICategoryAssistantWidget from './components/AICategoryAssistantWidget';
+import MVPTelemetryDashboard from './components/MVPTelemetryDashboard';
 import { 
   Home as HomeIcon, 
   PlayCircle, 
@@ -32,12 +37,26 @@ import {
   Apple, 
   Activity, 
   Code, 
-  Info 
+  Info,
+  Calculator,
+  ShoppingBag,
+  BarChart2,
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'sandbox' | 'themes' | 'insights' | 'explorer' | 'validation'
+  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'sandbox' | 'themes' | 'insights' | 'explorer' | 'validation' | 'hmw' | 'rice' | 'assistant' | 'telemetry'
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [telemetryEvents, setTelemetryEvents] = useState([]);
+
+  const handleLogTelemetry = (evt) => {
+    setTelemetryEvents(prev => [evt, ...prev]);
+    fetch('/api/v1/mvp/telemetry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(evt),
+    }).catch(err => console.warn("Failed to post telemetry:", err));
+  };
+
 
   // Sandbox state
   const [sandboxInput, setSandboxInput] = useState('');
@@ -166,8 +185,20 @@ export default function App() {
             <button className={activeTab === 'insights' ? 'active' : ''} onClick={() => { setActiveTab('insights'); setMobileMenuOpen(false); }}>
               <Lightbulb size={16} /> Core Insights
             </button>
-            <button className={activeTab === 'explorer' ? 'active' : ''} onClick={() => { setActiveTab('explorer'); setMobileMenuOpen(false); }}>
-              <Search size={16} /> Source Explorer
+            <button className={activeTab === 'hmw' ? 'active' : ''} onClick={() => { setActiveTab('hmw'); setMobileMenuOpen(false); }}>
+              <Target size={16} /> HMW Strategy
+            </button>
+            <button className={activeTab === 'rice' ? 'active' : ''} onClick={() => { setActiveTab('rice'); setMobileMenuOpen(false); }}>
+              <Calculator size={16} /> RICE Matrix
+            </button>
+            <button className={activeTab === 'mip' ? 'active' : ''} onClick={() => { setActiveTab('mip'); setMobileMenuOpen(false); }}>
+              <Cpu size={16} /> MIP Engine
+            </button>
+            <button className={activeTab === 'assistant' ? 'active' : ''} onClick={() => { setActiveTab('assistant'); setMobileMenuOpen(false); }}>
+              <ShoppingBag size={16} /> AI Assistant MVP
+            </button>
+            <button className={activeTab === 'telemetry' ? 'active' : ''} onClick={() => { setActiveTab('telemetry'); setMobileMenuOpen(false); }}>
+              <BarChart2 size={16} /> Telemetry
             </button>
             <button className={activeTab === 'validation' ? 'active' : ''} onClick={() => { setActiveTab('validation'); setMobileMenuOpen(false); }}>
               <CheckCircle size={16} /> Validation
@@ -908,6 +939,51 @@ export default function App() {
               </div>
             </section>
           </>
+        )}
+
+        {/* ==================== HMW STRATEGY TAB ==================== */}
+        {activeTab === 'hmw' && (
+          <section className="section">
+            <div className="container">
+              <HMWOpportunityMatrix />
+            </div>
+          </section>
+        )}
+
+        {/* ==================== RICE MATRIX TAB ==================== */}
+        {activeTab === 'rice' && (
+          <section className="section">
+            <div className="container">
+              <RICEStrategyTable />
+            </div>
+          </section>
+        )}
+
+        {/* ==================== AI MISSION INTELLIGENCE PLATFORM (MIP) TAB ==================== */}
+        {activeTab === 'mip' && (
+          <section className="section">
+            <div className="container">
+              <MissionIntelligencePlatform />
+            </div>
+          </section>
+        )}
+
+        {/* ==================== AI ASSISTANT MVP TAB ==================== */}
+        {activeTab === 'assistant' && (
+          <section className="section">
+            <div className="container">
+              <AICategoryAssistantWidget onLogTelemetry={handleLogTelemetry} />
+            </div>
+          </section>
+        )}
+
+        {/* ==================== TELEMETRY DASHBOARD TAB ==================== */}
+        {activeTab === 'telemetry' && (
+          <section className="section">
+            <div className="container">
+              <MVPTelemetryDashboard telemetryEvents={telemetryEvents} />
+            </div>
+          </section>
         )}
 
       </main>
