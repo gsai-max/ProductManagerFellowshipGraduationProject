@@ -44,7 +44,22 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'sandbox' | 'themes' | 'insights' | 'explorer' | 'validation' | 'hmw' | 'rice' | 'assistant' | 'telemetry'
+  const getInitialTab = () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      const partParam = params.get('part');
+      if (tabParam) return tabParam;
+      if (partParam === '2' || window.location.hostname.includes('blinkit-discovery-engine') || window.location.hostname.includes('mvp')) {
+        return 'assistant';
+      }
+    } catch (e) {
+      // Fallback to default home
+    }
+    return 'home';
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [telemetryEvents, setTelemetryEvents] = useState([]);
 
@@ -150,6 +165,8 @@ export default function App() {
     return (rev.source || '').toLowerCase().includes(explorerFilter.toLowerCase());
   });
 
+  const isPart2Tab = ['assistant', 'hmw', 'rice', 'mip', 'telemetry'].includes(activeTab);
+
   return (
     <div>
       <a href="#main-content" className="skip-to-content">Skip to content</a>
@@ -160,7 +177,9 @@ export default function App() {
           <div className="header-brand" onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }}>
             blink<span className="brand-it">it</span>
             <span className="brand-divider">|</span>
-            <span className="brand-sub">Discovery Engine</span>
+            <span className="brand-sub">
+              {isPart2Tab ? 'Part 2: Product Strategy & AI MVP' : 'Part 1: AI Discovery Engine'}
+            </span>
           </div>
 
           <button 
@@ -173,8 +192,9 @@ export default function App() {
           </button>
 
           <nav className={`header-nav ${mobileMenuOpen ? 'open' : ''}`} role="navigation">
+            {/* Part 1 Navigation Group */}
             <button className={activeTab === 'home' ? 'active' : ''} onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }}>
-              <HomeIcon size={16} /> Home
+              <HomeIcon size={16} /> Home (Part 1)
             </button>
             <button className={activeTab === 'sandbox' ? 'active' : ''} onClick={() => { setActiveTab('sandbox'); setMobileMenuOpen(false); }}>
               <PlayCircle size={16} /> Sandbox
@@ -185,6 +205,13 @@ export default function App() {
             <button className={activeTab === 'insights' ? 'active' : ''} onClick={() => { setActiveTab('insights'); setMobileMenuOpen(false); }}>
               <Lightbulb size={16} /> Core Insights
             </button>
+            
+            {/* Part 2 Navigation Group */}
+            <span style={{ borderLeft: '1px solid #334155', height: '20px', margin: '0 4px', display: 'inline-block' }} />
+            
+            <button className={activeTab === 'assistant' ? 'active' : ''} style={{ color: activeTab === 'assistant' ? '#38bdf8' : '#f8fafc', fontWeight: 700 }} onClick={() => { setActiveTab('assistant'); setMobileMenuOpen(false); }}>
+              <ShoppingBag size={16} /> AI Assistant MVP
+            </button>
             <button className={activeTab === 'hmw' ? 'active' : ''} onClick={() => { setActiveTab('hmw'); setMobileMenuOpen(false); }}>
               <Target size={16} /> HMW Strategy
             </button>
@@ -193,9 +220,6 @@ export default function App() {
             </button>
             <button className={activeTab === 'mip' ? 'active' : ''} onClick={() => { setActiveTab('mip'); setMobileMenuOpen(false); }}>
               <Cpu size={16} /> MIP Engine
-            </button>
-            <button className={activeTab === 'assistant' ? 'active' : ''} onClick={() => { setActiveTab('assistant'); setMobileMenuOpen(false); }}>
-              <ShoppingBag size={16} /> AI Assistant MVP
             </button>
             <button className={activeTab === 'telemetry' ? 'active' : ''} onClick={() => { setActiveTab('telemetry'); setMobileMenuOpen(false); }}>
               <BarChart2 size={16} /> Telemetry
