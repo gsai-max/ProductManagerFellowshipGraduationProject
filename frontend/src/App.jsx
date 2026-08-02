@@ -38,6 +38,9 @@ import {
   BarChart2,
 } from 'lucide-react';
 
+import DataSourcesModal from './components/DataSourcesModal';
+import ConsensusReportModal from './components/ConsensusReportModal';
+
 export default function App() {
   const getInitialTab = () => {
     try {
@@ -52,6 +55,11 @@ export default function App() {
 
   const [activeTab, setActiveTab] = useState(getInitialTab);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Modals state
+  const [sourcesModalOpen, setSourcesModalOpen] = useState(false);
+  const [consensusModalOpen, setConsensusModalOpen] = useState(false);
+
 
 
 
@@ -209,23 +217,71 @@ export default function App() {
                 <p>Analyzing thousands of user reviews with Google Gemini to decode why users stick to their habits and how to unlock new product discovery in quick commerce.</p>
 
                 <div className="stats-bar">
-                  <div className="stat-card">
+                  <div 
+                    className="stat-card clickable-card" 
+                    onClick={() => setActiveTab('explorer')}
+                    style={{ cursor: 'pointer', transition: 'all 0.2s ease', position: 'relative' }}
+                    title="Click to view all analyzed customer reviews in Explorer"
+                  >
                     <div className="stat-value">{DISCOVERY_DATA.meta.totalReviews.toLocaleString()}</div>
-                    <div className="stat-label">Reviews Analyzed</div>
+                    <div className="stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Reviews Analyzed</span>
+                      <Search size={14} style={{ color: '#0C831F' }} />
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#0C831F', fontWeight: 600, marginTop: '8px' }}>
+                      Inspect Review Corpus ➔
+                    </div>
                   </div>
-                  <div className="stat-card">
+
+                  <div 
+                    className="stat-card clickable-card" 
+                    onClick={() => setSourcesModalOpen(true)}
+                    style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
+                    title="Click to view all 10 ingested data channels and scraper breakdown"
+                  >
                     <div className="stat-value">{DISCOVERY_DATA.meta.sourcesCount}</div>
-                    <div className="stat-label">Data Sources</div>
+                    <div className="stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Data Sources</span>
+                      <Database size={14} style={{ color: '#0C831F' }} />
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#0C831F', fontWeight: 600, marginTop: '8px' }}>
+                      View 10 Channels ➔
+                    </div>
                   </div>
-                  <div className="stat-card">
+
+                  <div 
+                    className="stat-card clickable-card" 
+                    onClick={() => setActiveTab('themes')}
+                    style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
+                    title="Click to explore 4 AI Behavioral Themes"
+                  >
                     <div className="stat-value">{DISCOVERY_DATA.themes.length}</div>
-                    <div className="stat-label">Global Themes</div>
+                    <div className="stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>Global Themes</span>
+                      <Layers size={14} style={{ color: '#0C831F' }} />
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#0C831F', fontWeight: 600, marginTop: '8px' }}>
+                      Explore Themes ➔
+                    </div>
                   </div>
-                  <div className="stat-card">
+
+                  <div 
+                    className="stat-card clickable-card" 
+                    onClick={() => setConsensusModalOpen(true)}
+                    style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
+                    title="Click to view 4-Tier Multi-LLM Consensus & Confidence Report"
+                  >
                     <div className="stat-value">92%</div>
-                    <div className="stat-label">AI Confidence</div>
+                    <div className="stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>AI Confidence</span>
+                      <ShieldCheck size={14} style={{ color: '#0C831F' }} />
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#0C831F', fontWeight: 600, marginTop: '8px' }}>
+                      Validation Consensus Report ➔
+                    </div>
                   </div>
                 </div>
+
               </div>
             </section>
 
@@ -941,9 +997,21 @@ export default function App() {
       <footer>
         <div className="container">
           <p>Blinkit Discovery Engine | Built for the 2026 UX Research initiative.</p>
-          <p className="muted">Powered by Node.js, Google Gemini Pro, and Vanilla JS.</p>
+          <p className="muted">Powered by Node.js, Google Gemini Pro, and React.</p>
         </div>
       </footer>
+
+      {/* Interactive Modals */}
+      <DataSourcesModal 
+        isOpen={sourcesModalOpen} 
+        onClose={() => setSourcesModalOpen(false)} 
+      />
+
+      <ConsensusReportModal 
+        isOpen={consensusModalOpen} 
+        onClose={() => setConsensusModalOpen(false)} 
+      />
     </div>
   );
 }
+
