@@ -58,6 +58,7 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 ### 3.2 Multi-LLM Consensus & Validation
 * **2/3 Majority Rule:** Consensus enforced across Groq Llama-3.1, HuggingFace Llama-3.2, and Open Models.
 * **Human Audit Benchmark:** 200-review manual audit ($\ge 90\%$ target agreement).
+* **Platform Bias Skew Handling:** Source-level bias flags account for platform nuances (Reddit negative bias on fees/UI, App Store bimodal logs, Instagram visual unboxing positive skew).
 
 ---
 
@@ -73,6 +74,7 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 
 * **Design System Assets:** UI components anchored in `designsystem/` (`screen.png`, `screen1.png`, `screen2.png`, `screen3.png`).
 * **Empty/Loading States:** Animated shimmer skeletons and designed empty state components.
+* **Sandbox UI Optimization:** Removed raw JSON toggle to prevent UI clutter; formats sentiment results with explicit sentiment scores (e.g. `POSITIVE (+0.88)`).
 * **Sample Data Fallback:** Fallback to bundled `sample_insights.json` if live API is unreachable after 2 retries.
 
 ---

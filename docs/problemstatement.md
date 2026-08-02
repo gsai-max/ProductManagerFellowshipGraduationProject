@@ -44,6 +44,8 @@ Build an AI-powered system that analyzes user feedback at scale to decode habit 
   - 6-Agent AI Analysis (Theme, Emotion, Habit Loop, JTBD Need, Segment Archetype, Contradiction Agent)
   - 30-Node Interconnected Behavior Graph
   - 4-Tier Quality Validation Engine (Multi-LLM 2/3 Consensus: Groq Llama-3.1 + HF Llama-3.2)
+  - Multi-Bucket Quality & Bias Audit (Platform Skew Flags + Data Integrity & Hygiene Buckets)
+  - Live Single-Inference Sandbox with explicit Sentiment Scoring (e.g. `POSITIVE (+0.88)`)
   - Executive Intelligence Dashboard (`frontend/src/components/ExecutiveSummary.jsx`)
 
 

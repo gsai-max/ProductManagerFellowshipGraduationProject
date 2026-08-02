@@ -8,8 +8,8 @@ This document describes the end-to-end system architecture for the **Blinkit AI 
 
 The platform is designed as a multi-tier intelligence architecture for customer insight synthesis:
 
-* **AI Discovery Engine (Backend Intelligence):** Scrapes 10 customer feedback channels (157,630 raw feedback corpus), normalizes and vectorizes records into a local ChromaDB vector index, executes a **6-Agent AI Analysis Layer**, constructs an interconnected **Behavior Graph**, and enforces a **4-Tier Quality Validation Engine** (Groq Llama-3.1 + HuggingFace Llama-3.2 Multi-LLM Consensus 2/3 Rule, statistical confidence scoring, 200-review human audit benchmark, 20 user interviews).
-* **Executive Intelligence Dashboard (Frontend Application):** Interactive React dashboard displaying validated insights, behavior graphs, research question filters, and live single-inference sandbox analysis.
+* **AI Discovery Engine (Backend Intelligence):** Scrapes 10 customer feedback channels (157,630 raw feedback corpus), normalizes and vectorizes records into a local ChromaDB vector index, executes a **6-Agent AI Analysis Layer**, constructs an interconnected **Behavior Graph**, and enforces a **4-Tier Quality Validation Engine** (Groq Llama-3.1 + HuggingFace Llama-3.2 Multi-LLM Consensus 2/3 Rule, statistical confidence scoring, multi-bucket platform skew & data hygiene audits, 200-review human audit benchmark, 20 user interviews).
+* **Executive Intelligence Dashboard (Frontend Application):** Interactive React dashboard displaying validated insights, behavior graphs, research question filters, platform bias & quality buckets, and live single-inference sandbox analysis with explicit sentiment scoring (e.g. `POSITIVE (+0.88)`).
 
 ---
 

@@ -44,8 +44,10 @@ This implementation plan outlines the step-by-step engineering roadmap for build
 - Build continuous pattern detection and automated hypothesis generation (`hypotheses.json`, `experiments.json`).
 - Implement closed-loop confidence score updates based on empirical outcome feedback.
 
-### Phase 6: Executive Intelligence Dashboard & Interactive Sandbox
+### Phase 6: Executive Intelligence Dashboard, Validation Buckets & Interactive Sandbox
 - Build REST API endpoints serving insights, behavior graph, and research question filters.
+- Refine Interactive Sandbox UI with real-time sentiment score formatting (`POSITIVE (+0.88)`).
+- Implement Multi-Bucket Quality & Bias Audit view displaying Platform Skew Flags (Reddit negative bias, App Store bimodal logs, Instagram positive unboxing) and Data Hygiene Buckets.
 - Deploy Executive Intelligence Dashboard and Sandbox to Vercel (`https://blinkit-discovery-engine.vercel.app/`).
 
 ### Phase 7: Comprehensive Verification & Production Launch

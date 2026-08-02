@@ -44,6 +44,8 @@ The project is structured as an end-to-end product initiative in accordance with
 - **6 Specialized AI Agents:** Theme Extraction, Emotion Agent, Habit Loop Detector, JTBD Need Agent, Segment Archetype, Contradiction Agent.
 - **Behavior Graph:** 30-Node interconnected knowledge graph mapping habits, friction points, and category affinities.
 - **4-Tier Quality Validation Engine:** Groq Llama-3.1 + HuggingFace Llama-3.2 Multi-LLM 2/3 Consensus Rule, statistical confidence scoring, 200-review human audit benchmark, 20 user interviews.
+- **Multi-Bucket Quality & Bias Audit:** Platform Skew Flags (Reddit negative bias, App Store bimodal speed vs crash logs, Instagram positive unboxing) + Data Quality & Hygiene Buckets (Cross-Source Consensus, Temporal Balance, PII Scrubbing).
+- **Interactive Sandbox Module:** Real-time review inference with explicit sentiment scoring (e.g. `POSITIVE (+0.88)`).
 
 ---
 
