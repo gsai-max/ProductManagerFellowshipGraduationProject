@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle2, ShieldCheck, Cpu, Users, BarChart3, Info } from 'lucide-react';
+import { X, CheckCircle2, ShieldCheck, Cpu, BarChart3 } from 'lucide-react';
 
 export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
   if (!isOpen) return null;
@@ -33,36 +33,41 @@ export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(5, 8, 16, 0.85)',
+        background: 'rgba(15, 23, 42, 0.4)',
         backdropFilter: 'blur(8px)',
         zIndex: 1000,
         display: 'flex',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         padding: '20px'
       }}
+      onClick={onClose}
     >
       <div 
-        className="glass-card animate-fade-in"
         style={{
+          background: '#ffffff',
           width: '100%',
           maxWidth: '750px',
           maxHeight: '90vh',
           overflowY: 'auto',
+          borderRadius: '16px',
           padding: '28px',
-          border: '1px solid rgba(16,185,129,0.4)',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.6)'
+          border: '1px solid #e5e7eb',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ShieldCheck size={26} style={{ color: '#10b981' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid #f3f4f6', paddingBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ background: 'rgba(12, 131, 31, 0.12)', padding: '10px', borderRadius: '10px', color: '#0C831F' }}>
+              <ShieldCheck size={24} />
+            </div>
             <div>
-              <h2 className="gradient-heading" style={{ fontSize: '1.4rem', fontWeight: 800 }}>
+              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1f2937', margin: 0 }}>
                 Multi-LLM Quality Validation & Consensus Report
               </h2>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+              <div style={{ fontSize: '0.85rem', color: '#6b7280', margin: '2px 0 0' }}>
                 4-Tier Empirical Validation System eliminating AI hallucinations
               </div>
             </div>
@@ -70,15 +75,17 @@ export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
           <button 
             onClick={onClose}
             style={{
-              background: 'rgba(255,255,255,0.05)',
+              background: '#f3f4f6',
               border: 'none',
-              color: '#94a3b8',
-              borderRadius: '8px',
-              padding: '6px',
-              cursor: 'pointer',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
               display: 'flex',
               alignItems: 'center',
-              justify: 'center'
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: '#4b5563',
+              transition: 'background 0.2s'
             }}
           >
             <X size={20} />
@@ -87,34 +94,34 @@ export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
 
         {/* Top Hero Stats Row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '24px' }}>
-          <div style={{ background: 'rgba(16,185,129,0.1)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)', textAlign: 'center' }}>
-            <div style={{ fontSize: '0.72rem', color: '#34d399', textTransform: 'uppercase', fontWeight: 700 }}>Consensus Pass Rate</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>{data.consensus_pass_rate}</div>
+          <div style={{ background: '#ecfdf5', padding: '14px', borderRadius: '12px', border: '1px solid #a7f3d0', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.72rem', color: '#047857', textTransform: 'uppercase', fontWeight: 700 }}>Consensus Pass Rate</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#0C831F', marginTop: '2px' }}>{data.consensus_pass_rate}</div>
           </div>
-          <div style={{ background: 'rgba(59,130,246,0.1)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(59,130,246,0.2)', textAlign: 'center' }}>
-            <div style={{ fontSize: '0.72rem', color: '#60a5fa', textTransform: 'uppercase', fontWeight: 700 }}>Human Audit Agreement</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>{data.human_audit_agreement_score}</div>
+          <div style={{ background: '#fefce8', padding: '14px', borderRadius: '12px', border: '1px solid #fde047', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.72rem', color: '#b48505', textTransform: 'uppercase', fontWeight: 700 }}>Human Audit Agreement</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#b48505', marginTop: '2px' }}>{data.human_audit_agreement_score}</div>
           </div>
-          <div style={{ background: 'rgba(168,85,247,0.1)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(168,85,247,0.2)', textAlign: 'center' }}>
-            <div style={{ fontSize: '0.72rem', color: '#c084fc', textTransform: 'uppercase', fontWeight: 700 }}>Evaluated Insights</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>{data.consensus_passed_count} / {data.total_insights_evaluated}</div>
+          <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '12px', border: '1px solid #cbd5e1', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.72rem', color: '#475569', textTransform: 'uppercase', fontWeight: 700 }}>Evaluated Insights</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', marginTop: '2px' }}>{data.consensus_passed_count} / {data.total_insights_evaluated}</div>
           </div>
         </div>
 
         {/* 3 Model Status Grid */}
         <div style={{ marginBottom: '24px' }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Cpu size={16} style={{ color: '#10b981' }} /> Multi-LLM Consensus (2/3 Majority Rule Frontier Models)
+          <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#111827', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Cpu size={18} style={{ color: '#0C831F' }} /> Multi-LLM Consensus (2/3 Majority Rule Frontier Models)
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {(data.llm_models_configured || fallbackReport.llm_models_configured).map((model, idx) => (
               <div 
                 key={idx}
                 style={{
-                  background: 'rgba(15,23,42,0.8)',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: '#f9fafb',
+                  padding: '14px 16px',
+                  borderRadius: '10px',
+                  border: '1px solid #e5e7eb',
                   display: 'flex',
                   alignItems: 'center',
                   justify: 'space-between',
@@ -123,18 +130,18 @@ export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
                 }}
               >
                 <div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#f8fafc' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#111827' }}>
                     {model.name}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                  <div style={{ fontSize: '0.775rem', color: '#6b7280' }}>
                     {model.role}
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span className="glass-pill" style={{ color: '#34d399', fontSize: '0.72rem' }}>
+                  <span style={{ background: '#ecfdf5', color: '#047857', fontSize: '0.75rem', fontWeight: 600, padding: '4px 10px', borderRadius: '99px', border: '1px solid #a7f3d0', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <CheckCircle2 size={12} /> {model.status}
                   </span>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#60a5fa' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0C831F' }}>
                     {model.pass_rate}
                   </span>
                 </div>
@@ -144,31 +151,31 @@ export default function ConsensusReportModal({ isOpen, onClose, reportData }) {
         </div>
 
         {/* 4-Tier Validation Framework */}
-        <div style={{ background: 'rgba(10,15,26,0.6)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.04)', marginBottom: '20px' }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <BarChart3 size={16} style={{ color: '#38bdf8' }} /> The 4-Tier Validation Pipeline
+        <div style={{ background: '#f8fafc', padding: '18px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
+          <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1e293b', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <BarChart3 size={18} style={{ color: '#0284c7' }} /> The 4-Tier Validation Pipeline
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {(data.validation_layers || fallbackReport.validation_layers).map((layer, idx) => (
-              <div key={idx} style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.4 }}>
-                <strong style={{ color: '#34d399' }}>{layer.tier}: </strong> {layer.detail}
+              <div key={idx} style={{ fontSize: '0.825rem', color: '#334155', lineHeight: 1.5, background: '#ffffff', padding: '10px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <strong style={{ color: '#0C831F' }}>{layer.tier}: </strong> {layer.detail}
               </div>
             ))}
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button
             onClick={onClose}
             style={{
-              padding: '8px 20px',
+              padding: '10px 22px',
               borderRadius: '8px',
               border: 'none',
-              background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
-              color: '#000',
+              background: '#0C831F',
+              color: '#ffffff',
               fontWeight: 700,
-              fontSize: '0.85rem',
+              fontSize: '0.875rem',
               cursor: 'pointer'
             }}
           >
