@@ -31,7 +31,6 @@ import {
   Smartphone, 
   Apple, 
   Activity, 
-  Code, 
   Info,
   Calculator,
   ShoppingBag,
@@ -67,7 +66,6 @@ export default function App() {
   const [sandboxInput, setSandboxInput] = useState('');
   const [sandboxLoading, setSandboxLoading] = useState(false);
   const [sandboxResult, setSandboxResult] = useState(null);
-  const [showRawJson, setShowRawJson] = useState(false);
   const [sandboxError, setSandboxError] = useState('');
 
   // Explorer state
@@ -96,36 +94,44 @@ export default function App() {
       let sentiment = 'positive';
       let theme = 'T1: Navigation Friction & Choice Overload';
       let friction = 'Cognitive overload caused by dense promotional grids and search reliance.';
+      let score = 0.88;
       
       if (lower.includes('reorder') || lower.includes('habit') || lower.includes('milk') || lower.includes('usual') || lower.includes('trap')) {
         theme = 'T2: Habit Loop & Repetitive Ordering';
         sentiment = lower.includes('trap') ? 'negative' : 'positive';
+        score = sentiment === 'positive' ? 0.88 : -0.75;
         friction = 'User defaults to repurchasing historical items via 1-tap reorder without exploring new categories.';
       } else if (lower.includes('price') || lower.includes('discount') || lower.includes('expensive') || lower.includes('compare') || lower.includes('fruit')) {
         theme = 'T4: Price Sensitivity & Discount Seeking';
         sentiment = 'neutral';
+        score = 0.05;
         friction = 'Absence of unit-pricing tools (e.g. price per 100g) prevents brand substitution.';
       } else if (lower.includes('expiry') || lower.includes('trust') || lower.includes('beauty') || lower.includes('review') || lower.includes('skincare')) {
         theme = 'T3: Trust Barriers in New Categories';
         sentiment = 'negative';
+        score = -0.82;
         friction = 'Missing customer reviews, expiration dates, or freshness guarantees for non-grocery products.';
       } else if (lower.includes('charger') || lower.includes('cable') || lower.includes('tech') || lower.includes('emergency')) {
         theme = 'T5: High-Urgency Utility & Electronics Discovery';
         sentiment = 'positive';
+        score = 0.94;
         friction = 'High-urgency mission drives cross-category trial when immediate 10-minute fulfillment is guaranteed.';
       } else if (lower.includes('bundle') || lower.includes('sample') || lower.includes('trial') || lower.includes('treats')) {
         theme = 'T6: Risk-Transfer via Trial Bundling';
         sentiment = 'positive';
+        score = 0.91;
         friction = 'Perceived economic risk of unproven products is mitigated by low-cost micro-sampling kits at checkout.';
       } else if (lower.includes('mess') || lower.includes('cluttered') || lower.includes('chore') || lower.includes('ui')) {
         theme = 'T1: Navigation Friction & Choice Overload';
         sentiment = 'negative';
+        score = -0.85;
         friction = 'Overwhelming category navigation causes organic discovery fatigue.';
       }
 
       setSandboxResult({
         theme,
         sentiment,
+        score,
         friction,
         confidence: 0.94,
         relevance: 'high',
@@ -481,7 +487,10 @@ export default function App() {
                         <Activity size={16} /> Sentiment
                       </div>
                       <div className={`result-value sentiment-${sandboxResult.sentiment}`}>
-                        {sandboxResult.sentiment.toUpperCase()}
+                        {sandboxResult.sentiment.toUpperCase()}{' '}
+                        <span style={{ fontSize: '0.95em', opacity: 0.85, marginLeft: '6px', fontWeight: 600 }}>
+                          ({(sandboxResult.score ?? 0.88) > 0 ? `+${(sandboxResult.score ?? 0.88).toFixed(2)}` : (sandboxResult.score ?? 0.88).toFixed(2)})
+                        </span>
                       </div>
                     </div>
 
@@ -490,14 +499,6 @@ export default function App() {
                         <AlertTriangle size={16} /> Underlying Friction
                       </div>
                       <div className="result-value">{sandboxResult.friction}</div>
-                    </div>
-
-                    <button className="json-toggle" onClick={() => setShowRawJson(!showRawJson)}>
-                      <Code size={16} /> {showRawJson ? 'Hide' : 'View'} Raw JSON Output
-                    </button>
-
-                    <div className={`raw-json-container ${showRawJson ? 'active' : ''}`}>
-                      <pre className="raw-json">{JSON.stringify(sandboxResult, null, 2)}</pre>
                     </div>
                   </div>
                 )}
