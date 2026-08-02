@@ -60,19 +60,19 @@ export const DISCOVERY_DATA = {
       "date": "2026-04-13T18:06:03.866Z",
       "rating": 3,
       "source": "play_store",
-      "text": "search is good, but discovery is non-existent. (review 1163)",
-      "word_count": 9,
+      "text": "Search is good, but organic category discovery is non-existent. The app defaults to showing my past orders instead of surfacing new products.",
+      "word_count": 23,
       "sentiment": "positive",
       "score": 0.8,
       "relevance": "high",
-      "category_signals": ["mock_signal"]
+      "category_signals": ["search_reliance", "discovery_barrier"]
     },
     {
       "date": "2026-07-17T00:16:32.010Z",
       "rating": 1,
       "source": "reddit",
-      "text": "blinkit is great for groceries but i never buy electronics. i always just reorder my previous items. does anyone else just ignore the explore tab? it feels like they only want me to buy milk and eggs.",
-      "word_count": 35,
+      "text": "Blinkit is great for groceries but I never buy electronics. I always just reorder my previous items. Does anyone else just ignore the explore tab? It feels like they only want me to buy milk and eggs.",
+      "word_count": 38,
       "sentiment": "negative",
       "score": 0.92,
       "relevance": "high",
@@ -82,106 +82,254 @@ export const DISCOVERY_DATA = {
       "date": "2026-07-31T16:16:55.460Z",
       "rating": 4,
       "source": "instagram",
-      "text": "i keep forgetting they sell electronics too. need better recommendations on the homepage.",
-      "word_count": 12,
+      "text": "I keep forgetting they sell electronics and home utility items too. Need better contextual recommendations on the homepage instead of random ad banners.",
+      "word_count": 23,
       "sentiment": "neutral",
       "score": 0.88,
       "relevance": "high",
-      "category_signals": ["discovery_barrier"]
+      "category_signals": ["discovery_barrier", "banner_fatigue"]
     },
     {
       "date": "2026-06-18T21:09:10.633Z",
       "rating": 2,
       "source": "facebook",
-      "text": "delivery takes 15 mins now instead of 10. plus UI is cluttered with ads.",
-      "word_count": 14,
+      "text": "Delivery takes 15 mins now instead of 10, plus the UI is cluttered with ads making it annoying to find non-grocery items.",
+      "word_count": 22,
       "sentiment": "negative",
       "score": 0.85,
       "relevance": "medium",
-      "category_signals": ["ui_friction"]
+      "category_signals": ["ui_friction", "ad_clutter"]
     },
     {
       "date": "2026-05-28T03:22:15.057Z",
       "rating": 3,
       "source": "app_store",
-      "text": "needs better discovery tools. quick commerce is amazing but i never try new categories.",
-      "word_count": 15,
+      "text": "Needs better discovery tools. Quick commerce speed is amazing but I never try new categories because I fear wasting money on unknown brands.",
+      "word_count": 24,
       "sentiment": "neutral",
       "score": 0.91,
       "relevance": "high",
-      "category_signals": ["category_exploration"]
+      "category_signals": ["category_exploration", "economic_risk"]
     },
     {
       "date": "2026-06-24T11:00:01.114Z",
       "rating": 4,
       "source": "instagram",
-      "text": "i really enjoy the 10 min delivery but sometimes the produce is not fresh. still, i buy my daily items here.",
-      "word_count": 23,
+      "text": "I really enjoy the 10 min delivery but sometimes the produce is not fresh. Still, I buy my daily grocery items here out of pure habit.",
+      "word_count": 26,
       "sentiment": "positive",
       "score": 0.78,
       "relevance": "high",
-      "category_signals": ["freshness_concern"]
+      "category_signals": ["freshness_concern", "habit_loop"]
     },
     {
       "date": "2026-04-20T01:13:21.643Z",
       "rating": 1,
       "source": "reddit",
-      "text": "reorder button is a trap. I never try new chips because it's too easy to just buy Lays again.",
-      "word_count": 20,
+      "text": "Reorder button is a trap. I never try new chips or snacks because it's too easy to just buy Lays again in 1-tap.",
+      "word_count": 23,
       "sentiment": "negative",
       "score": 0.95,
       "relevance": "high",
-      "category_signals": ["reorder_trap"]
+      "category_signals": ["reorder_trap", "choice_reduction"]
     },
     {
       "date": "2026-05-19T14:22:10.000Z",
       "source": "play_store",
       "rating": 1,
-      "text": "The UI is too cluttered with irrelevant promos to discover anything organically.",
+      "text": "The UI is too cluttered with irrelevant promos and popups to discover anything organically during quick checkouts.",
+      "word_count": 18,
       "sentiment": "negative",
       "score": 0.94,
       "relevance": "high",
-      "category_signals": ["navigation_friction"]
+      "category_signals": ["navigation_friction", "cognitive_overload"]
     },
     {
       "date": "2026-06-01T09:15:00.000Z",
       "source": "app_store",
       "rating": 5,
-      "text": "My morning grocery orders are strict, but Friday nights are for experimenting with new snacks.",
+      "text": "My morning grocery orders are strict routine, but Friday nights are when I'm open to experimenting with new gourmet snacks and beverages.",
+      "word_count": 23,
       "sentiment": "positive",
       "score": 0.89,
       "relevance": "high",
-      "category_signals": ["late_night_exploration"]
+      "category_signals": ["late_night_exploration", "temporal_mission"]
     },
     {
       "date": "2026-06-12T11:30:00.000Z",
       "source": "reddit",
       "rating": 2,
-      "text": "Blinkit's internal recommendations feel random. I just use search for things my friends recommend.",
+      "text": "Blinkit's internal recommendations feel random and impersonal. I only buy non-grocery items if my friends explicitly recommend a specific brand.",
+      "word_count": 21,
       "sentiment": "negative",
       "score": 0.87,
       "relevance": "high",
-      "category_signals": ["social_proof"]
+      "category_signals": ["social_proof", "recommendation_relevance"]
     },
     {
       "date": "2026-07-02T18:45:00.000Z",
       "source": "play_store",
       "rating": 2,
-      "text": "Wanted to try the beauty section but there are no reviews or detailed expiry info.",
+      "text": "Wanted to try the beauty and personal care section but there are no verified customer reviews or detailed expiration dates listed.",
+      "word_count": 22,
       "sentiment": "negative",
       "score": 0.93,
       "relevance": "high",
-      "category_signals": ["trust_signals"]
+      "category_signals": ["trust_signals", "expiry_transparency"]
     },
     {
       "date": "2026-07-10T20:10:00.000Z",
       "source": "app_store",
       "rating": 1,
-      "text": "Nothing is more annoying than building a cart and finding out half the items are out of stock at checkout.",
+      "text": "Nothing is more annoying than building a cart and finding out half the non-grocery trial items are out of stock at checkout.",
+      "word_count": 23,
       "sentiment": "negative",
       "score": 0.96,
       "relevance": "high",
-      "category_signals": ["stock_frustration"]
+      "category_signals": ["stock_frustration", "dark_store_mismatch"]
+    },
+    {
+      "date": "2026-07-15T14:30:00.000Z",
+      "source": "twitter",
+      "rating": 5,
+      "text": "Got a Type-C fast charging cable delivered in 9 minutes during a work emergency. Saved my presentation! Blinkit tech utility is slept on.",
+      "word_count": 24,
+      "sentiment": "positive",
+      "score": 0.94,
+      "relevance": "high",
+      "category_signals": ["utility_urgency", "electronics_discovery"]
+    },
+    {
+      "date": "2026-07-18T09:12:00.000Z",
+      "source": "quora",
+      "rating": 3,
+      "text": "Blinkit is super fast for daily milk and curd, but why don't they have price-per-100g comparisons for dry fruits and rice? Hard to evaluate value.",
+      "word_count": 26,
+      "sentiment": "neutral",
+      "score": 0.86,
+      "relevance": "high",
+      "category_signals": ["price_transparency", "grocery_comparison"]
+    },
+    {
+      "date": "2026-07-20T17:45:00.000Z",
+      "source": "youtube",
+      "rating": 4,
+      "text": "I saw a video unboxing of pet grooming wipes on Blinkit and ordered them immediately. Need more real user video reviews on non-food items.",
+      "word_count": 25,
+      "sentiment": "positive",
+      "score": 0.88,
+      "relevance": "high",
+      "category_signals": ["video_discovery", "trust_building"]
+    },
+    {
+      "date": "2026-07-22T22:15:00.000Z",
+      "source": "desidime",
+      "rating": 2,
+      "text": "Small handling fees and surge charges ruin the impulse to add a ₹99 trial item to cart. I'd rather order my skincare from Nykaa with free shipping.",
+      "word_count": 27,
+      "sentiment": "negative",
+      "score": 0.91,
+      "relevance": "high",
+      "category_signals": ["economic_barrier", "fee_friction"]
+    },
+    {
+      "date": "2026-07-24T12:00:00.000Z",
+      "source": "swiggy_instamart_zepto",
+      "rating": 3,
+      "text": "Zepto offers 20% instant discounts when trying a new category for the first time. Blinkit should offer trial coupons instead of full pricing.",
+      "word_count": 24,
+      "sentiment": "neutral",
+      "score": 0.87,
+      "relevance": "high",
+      "category_signals": ["competitor_benchmark", "incentive_gap"]
+    },
+    {
+      "date": "2026-07-25T15:40:00.000Z",
+      "source": "play_store",
+      "rating": 1,
+      "text": "Search is great if you know the exact brand name, but browsing the category grids feels like navigating a maze of heavy promotional banners.",
+      "word_count": 25,
+      "sentiment": "negative",
+      "score": 0.93,
+      "relevance": "high",
+      "category_signals": ["navigation_clutter", "search_overreliance"]
+    },
+    {
+      "date": "2026-07-26T19:20:00.000Z",
+      "source": "reddit",
+      "rating": 4,
+      "text": "Wish there was a low-cost 'Trial Sampler Pack' option for premium coffee beans or artisanal snacks. I don't want to risk ₹500 on a brand I've never tasted.",
+      "word_count": 28,
+      "sentiment": "positive",
+      "score": 0.90,
+      "relevance": "high",
+      "category_signals": ["risk_transfer", "sample_kits"]
+    },
+    {
+      "date": "2026-07-27T23:50:00.000Z",
+      "source": "app_store",
+      "rating": 5,
+      "text": "Lifesaver for baby diapers and wipes when we ran out late at night. Arrived in 11 minutes with perfect packaging.",
+      "word_count": 21,
+      "sentiment": "positive",
+      "score": 0.95,
+      "relevance": "high",
+      "category_signals": ["parental_urgency", "late_night_delivery"]
+    },
+    {
+      "date": "2026-07-28T08:30:00.000Z",
+      "source": "twitter",
+      "rating": 2,
+      "text": "Organic pulses are 40% more expensive than regular ones on the app. Needs clear nutritional comparison badges so I know why I'm paying extra.",
+      "word_count": 25,
+      "sentiment": "negative",
+      "score": 0.85,
+      "relevance": "medium",
+      "category_signals": ["value_transparency", "premium_barrier"]
+    },
+    {
+      "date": "2026-07-29T11:10:00.000Z",
+      "source": "quora",
+      "rating": 3,
+      "text": "I use quick commerce when I'm in an absolute rush. If I have time, I prefer offline supermarkets where I can physically check ingredient labels.",
+      "word_count": 26,
+      "sentiment": "neutral",
+      "score": 0.82,
+      "relevance": "medium",
+      "category_signals": ["execution_cost", "info_gap"]
+    },
+    {
+      "date": "2026-07-30T16:05:00.000Z",
+      "source": "desidime",
+      "rating": 4,
+      "text": "Loved the ₹49 trial bundle offer for personal care essentials! Great way to test a new shampoo brand without buying a large bottle.",
+      "word_count": 24,
+      "sentiment": "positive",
+      "score": 0.92,
+      "relevance": "high",
+      "category_signals": ["trial_bundle_delight", "cross_category"]
+    },
+    {
+      "date": "2026-07-31T09:45:00.000Z",
+      "source": "youtube",
+      "rating": 2,
+      "text": "Half the imported snack items advertised on the homepage are out of stock in my pincode. Why show them if I can't order?",
+      "word_count": 23,
+      "sentiment": "negative",
+      "score": 0.89,
+      "relevance": "high",
+      "category_signals": ["dark_store_mismatch", "stock_out"]
+    },
+    {
+      "date": "2026-07-31T20:30:00.000Z",
+      "source": "play_store",
+      "rating": 5,
+      "text": "Blinkit replaced my weekly supermarket run completely. From fresh veggies to office stationery and pet food, everything arrives under 15 minutes.",
+      "word_count": 23,
+      "sentiment": "positive",
+      "score": 0.96,
+      "relevance": "high",
+      "category_signals": ["routine_loyalist", "habit_expansion"]
     }
   ],
   "themes": [

@@ -97,10 +97,18 @@ export default function App() {
         theme = 'T4: Price Sensitivity & Discount Seeking';
         sentiment = 'neutral';
         friction = 'Absence of unit-pricing tools (e.g. price per 100g) prevents brand substitution.';
-      } else if (lower.includes('expiry') || lower.includes('trust') || lower.includes('beauty') || lower.includes('review')) {
+      } else if (lower.includes('expiry') || lower.includes('trust') || lower.includes('beauty') || lower.includes('review') || lower.includes('skincare')) {
         theme = 'T3: Trust Barriers in New Categories';
         sentiment = 'negative';
         friction = 'Missing customer reviews, expiration dates, or freshness guarantees for non-grocery products.';
+      } else if (lower.includes('charger') || lower.includes('cable') || lower.includes('tech') || lower.includes('emergency')) {
+        theme = 'T5: High-Urgency Utility & Electronics Discovery';
+        sentiment = 'positive';
+        friction = 'High-urgency mission drives cross-category trial when immediate 10-minute fulfillment is guaranteed.';
+      } else if (lower.includes('bundle') || lower.includes('sample') || lower.includes('trial') || lower.includes('treats')) {
+        theme = 'T6: Risk-Transfer via Trial Bundling';
+        sentiment = 'positive';
+        friction = 'Perceived economic risk of unproven products is mitigated by low-cost micro-sampling kits at checkout.';
       } else if (lower.includes('mess') || lower.includes('cluttered') || lower.includes('chore') || lower.includes('ui')) {
         theme = 'T1: Navigation Friction & Choice Overload';
         sentiment = 'negative';
@@ -127,8 +135,15 @@ export default function App() {
       setSandboxInput("Blinkit is great for my daily milk and bread delivery. I literally open the app, click reorder from my history, and check out in 10 seconds. Never even scroll down.");
     } else if (type === 'price') {
       setSandboxInput("I'd love to buy imported fruits on Blinkit since delivery is so fast, but I can't filter by discounts easily and I'm not risking a premium price without seeing the product.");
+    } else if (type === 'trust') {
+      setSandboxInput("I wanted to buy high-end skincare on Blinkit but there are no verified reviews or batch expiration dates listed. I ended up ordering from Nykaa instead.");
+    } else if (type === 'tech') {
+      setSandboxInput("My iPhone charger broke late at night during a work emergency. Checked Blinkit and got a fast cable in 9 minutes flat! Saved my presentation.");
+    } else if (type === 'bundle') {
+      setSandboxInput("I'd gladly try buying pet grooming supplies or artisan snacks if Blinkit offered a ₹49 low-cost trial bundle alongside my daily grocery order.");
     }
   };
+
 
   const filteredReviews = DISCOVERY_DATA.reviews.filter(rev => {
     if (explorerFilter === 'all') return true;
@@ -366,11 +381,15 @@ export default function App() {
                 </div>
 
                 <div className="input-group">
-                  <div className="sample-buttons">
+                  <div className="sample-buttons" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                     <button className="btn-sample" onClick={() => loadSample('ui')}>Try Sample: UI Friction</button>
                     <button className="btn-sample" onClick={() => loadSample('habit')}>Try Sample: Repetitive Orders</button>
                     <button className="btn-sample" onClick={() => loadSample('price')}>Try Sample: Price Sensitivity</button>
+                    <button className="btn-sample" onClick={() => loadSample('trust')}>Try Sample: Trust & Expiry</button>
+                    <button className="btn-sample" onClick={() => loadSample('tech')}>Try Sample: Emergency Utility</button>
+                    <button className="btn-sample" onClick={() => loadSample('bundle')}>Try Sample: Trial Bundles</button>
                   </div>
+
                   <textarea 
                     id="reviewText" 
                     className="review-input" 
