@@ -1,4 +1,4 @@
-# Models Package — Pydantic domain models for Part 1 & Part 2
+# Models Package — Pydantic domain models for AI Discovery Engine
 
 from src.app.models.domain import (
     RawFeedbackRecord,
@@ -11,15 +11,6 @@ from src.app.models.domain import (
     ConsumerArchetype,
     ContradictionPattern,
 )
-from src.app.models.strategy_domain import (
-    HMWOpportunity,
-    RICEEvaluationItem,
-    AssistantRecommendationCard,
-    AssistantCartContext,
-    AssistantRecommendationResponse,
-    MVPTelemetryEvent,
-    MVPExperimentMetrics,
-)
 
 __all__ = [
     "RawFeedbackRecord",
@@ -31,11 +22,5 @@ __all__ = [
     "JTBDItem",
     "ConsumerArchetype",
     "ContradictionPattern",
-    "HMWOpportunity",
-    "RICEEvaluationItem",
-    "AssistantRecommendationCard",
-    "AssistantCartContext",
-    "AssistantRecommendationResponse",
-    "MVPTelemetryEvent",
-    "MVPExperimentMetrics",
 ]
+

@@ -14,7 +14,6 @@ from src.app.api.schemas import (
     CategoryAnalyticsResponse,
     ExperimentListResponse,
     HealthResponse,
-    HMWOpportunityListResponse,
     HypothesisListResponse,
     InsightListResponse,
     OutcomeSubmissionRequest,
@@ -22,22 +21,15 @@ from src.app.api.schemas import (
     PatternListResponse,
     PipelineRunRequest,
     PipelineStatusResponse,
-    RICEListResponse,
     SentimentAnalyticsResponse,
-    TelemetryEventResponse,
-    MVPMetricsResponse,
     ThemeListResponse,
     ValidationReportResponse,
 )
 from src.app.models.domain import ExperimentOutcomeSubmission
-from src.app.models.strategy_domain import (
-    AssistantCartContext,
-    AssistantRecommendationResponse,
-    MVPTelemetryEvent,
-)
 from src.app.services.orchestrator import PipelineOrchestrator
 
 router = APIRouter(prefix="/api/v1", tags=["Blinkit Discovery Engine"])
+
 
 
 @router.get("/health", response_model=HealthResponse)
@@ -246,84 +238,6 @@ def get_validation_report():
     report = loader.get_validation_report()
     return ValidationReportResponse(**report)
 
-
-# ─── Part 2 Strategy Engine Routes ───
-
-@router.get("/strategy/hmw", response_model=HMWOpportunityListResponse)
-def get_hmw_opportunities(
-    limit: Optional[int] = Query(None, description="Limit number of HMW opportunities")
-):
-    """Returns list of How Might We (HMW) opportunity statements derived from behavior graph friction nodes."""
-    loader = DataLoader.get_instance()
-    opps = loader.get_hmw_opportunities(limit=limit)
-    return HMWOpportunityListResponse(
-        total=len(opps),
-        opportunities=opps,
-        meta={
-            "part": "Part 2 Strategy Engine",
-            "north_star_metric": "% MAC purchasing from >=1 new category/month",
-        },
-    )
-
-
-@router.get("/strategy/rice", response_model=RICEListResponse)
-def get_rice_evaluations():
-    """Returns RICE prioritization evaluation matrix and top selected MVP solution."""
-    loader = DataLoader.get_instance()
-    data = loader.get_rice_evaluations()
-    return RICEListResponse(
-        total=data["total"],
-        selected_mvp=data["selected_mvp"],
-        evaluations=data["evaluations"],
-        meta={
-            "part": "Part 2 Strategy Engine",
-            "formula": "(Reach * Impact * Confidence) / Effort",
-        },
-    )
-
-
-# ─── Part 2 AI-Native MVP Assistant Routes ───
-
-@router.post("/mvp/recommend", response_model=AssistantRecommendationResponse)
-def get_assistant_recommendations(
-    cart_context: AssistantCartContext,
-    limit: Optional[int] = Query(3, description="Limit number of recommendations"),
-):
-    """Generates AI Category Discovery Assistant non-grocery trial recommendations based on cart intent."""
-    loader = DataLoader.get_instance()
-    data = loader.generate_assistant_recommendations(cart_context=cart_context, limit=limit)
-    return AssistantRecommendationResponse(**data)
-
-
-@router.post("/mvp/telemetry", response_model=TelemetryEventResponse)
-def log_mvp_telemetry_event(event: MVPTelemetryEvent):
-    """Logs user interaction telemetry events (impressions, card clicks, trial additions, dismissals) for A/B tracking."""
-    loader = DataLoader.get_instance()
-    logged = loader.log_telemetry_event(event.model_dump())
-    return TelemetryEventResponse(
-        status="success",
-        message=f"Telemetry event '{event.event_type}' logged successfully for session '{event.session_id}'.",
-        event_id=event.event_id,
-    )
-
-
-@router.get("/mvp/metrics", response_model=MVPMetricsResponse)
-def get_mvp_experiment_metrics():
-    """Returns live A/B experiment telemetry metrics and North Star tracking indicators."""
-    loader = DataLoader.get_instance()
-    data = loader.get_mvp_experiment_metrics()
-    return MVPMetricsResponse(**data)
-
-
-@router.post("/mip/parse-intent")
-def parse_mip_mission_intent(cart_context: AssistantCartContext):
-    """Parses real-time cart tokens and returns AI Mission Intelligence Platform (MIP) intent classification."""
-    loader = DataLoader.get_instance()
-    result = loader.parse_mission_intent(
-        cart_items=cart_context.cart_items,
-        user_segment=cart_context.primary_category or "routine_loyalist"
-    )
-    return result
 
 
 

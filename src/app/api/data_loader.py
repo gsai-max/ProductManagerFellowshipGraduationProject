@@ -222,43 +222,6 @@ class DataLoader:
     def get_learning_outcomes(self) -> List[Dict[str, Any]]:
         return self.learning_outcomes
 
-    def get_hmw_opportunities(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
-        """Generates How Might We opportunities based on cached behavior graph."""
-        from src.app.strategy.hmw_generator import HMWOpportunityGenerator
-        generator = HMWOpportunityGenerator(behavior_graph=self.behavior_graph)
-        opps = generator.generate_opportunities(limit=limit)
-        return [op.model_dump() for op in opps]
-
-    def get_rice_evaluations(self) -> Dict[str, Any]:
-        """Calculates RICE prioritization matrix scores and returns ranked solutions and sensitivity triggers."""
-        from src.app.strategy.rice_evaluator import RICEEvaluator
-        evaluator = RICEEvaluator()
-        ranked_items = evaluator.evaluate_and_rank()
-        selected_mvp = evaluator.get_selected_mvp()
-        triggers = evaluator.get_sensitivity_triggers()
-        return {
-            "total": len(ranked_items),
-            "selected_mvp": selected_mvp.model_dump(),
-            "evaluations": [item.model_dump() for item in ranked_items],
-            "sensitivity_triggers": triggers,
-        }
-
-    def generate_assistant_recommendations(
-        self, cart_context: Any, limit: int = 3
-    ) -> Dict[str, Any]:
-        """Generates AI Category Discovery Assistant recommendations based on cart context."""
-        from src.app.mvp.assistant_engine import AICategoryAssistantEngine
-        from src.app.models.strategy_domain import AssistantCartContext
-
-        if isinstance(cart_context, dict):
-            cart_ctx = AssistantCartContext(**cart_context)
-        else:
-            cart_ctx = cart_context
-
-        engine = AICategoryAssistantEngine()
-        response = engine.get_recommendations(cart_context=cart_ctx, limit=limit)
-        return response.model_dump()
-
     def get_analytics_summary(self) -> Dict[str, Any]:
         """Returns summary statistics across ingested data."""
         if self.processed_df is None or self.processed_df.empty:
@@ -357,52 +320,6 @@ class DataLoader:
             "human_audit_report": self.human_audit_report,
         }
 
-    def log_telemetry_event(self, event_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Logs a telemetry event into in-memory store."""
-        event_entry = {
-            **event_data,
-            "logged_at": datetime.now(timezone.utc).isoformat(),
-        }
-        self.telemetry_events.append(event_entry)
-        return event_entry
-
-    def get_telemetry_events(self, limit: int = 50) -> List[Dict[str, Any]]:
-        """Returns recent logged telemetry events."""
-        return self.telemetry_events[-limit:]
-
-    def get_mvp_experiment_metrics(self) -> Dict[str, Any]:
-        """Calculates dynamic A/B telemetry metrics based on logged user events."""
-        from src.app.models.strategy_domain import MVPExperimentMetrics
-        metrics = MVPExperimentMetrics()
-
-        impressions = sum(1 for e in self.telemetry_events if e.get("event_type") == "widget_impression")
-        card_clicks = sum(1 for e in self.telemetry_events if e.get("event_type") == "card_click")
-        items_added = sum(1 for e in self.telemetry_events if e.get("event_type") == "item_added_to_cart")
-        dismissals = sum(1 for e in self.telemetry_events if e.get("event_type") == "nudge_dismissed")
-        conversions = sum(1 for e in self.telemetry_events if e.get("event_type") == "category_checkout_converted")
-
-        metrics.total_active_users = max(12450, 12450 + impressions)
-        metrics.variant_users = max(6225, 6225 + impressions)
-        metrics.control_users = metrics.total_active_users - metrics.variant_users
-
-        if items_added > 0 or conversions > 0:
-            metrics.cross_category_conversion_rate_pct = round(14.2 + (conversions * 0.5), 1)
-            metrics.north_star_mac_cross_category_pct = round(24.8 + (conversions * 0.3), 1)
-            metrics.statistically_significant = True
-
-        return {
-            "metrics": metrics.model_dump(),
-            "telemetry_counts": {
-                "impressions": impressions,
-                "card_clicks": card_clicks,
-                "items_added": items_added,
-                "dismissals": dismissals,
-                "conversions": conversions,
-                "total_logged_events": len(self.telemetry_events),
-            },
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
-
     def get_survey_memo_summary(self) -> Dict[str, Any]:
         """Returns structured summary of n=100 Blinkit Category Expansion Survey Memo."""
         return {
@@ -429,55 +346,3 @@ class DataLoader:
             },
             "strategic_initiatives_count": 6,
         }
-
-    def parse_mission_intent(self, cart_items: List[str], time_of_day: str = "evening", user_segment: str = "routine_loyalist") -> Dict[str, Any]:
-        """Parses shopping cart tokens and returns AI Mission Intelligence Platform (MIP) intent classification."""
-        cart_text = " ".join(cart_items).lower()
-
-        mission_type = "Weekly Grocery Replenishment"
-        archetype = "Family Household"
-        confidence_score = 0.88
-        touchpoint = "Checkout Prompts & Trial Bundles"
-        explanation = "User is conducting routine grocery replenishment. High basket stability allows micro-sampling at checkout."
-
-        if any(w in cart_text for w in ["milk", "bread", "eggs", "butter", "dal", "rice", "atta"]):
-            mission_type = "Weekly Grocery Replenishment"
-            archetype = "Family Household"
-            confidence_score = 0.92
-            touchpoint = "Checkout Prompts (1-Tap Trial)"
-            explanation = "Routine grocery mission detected. Surface low-risk personal care or home essential trial at checkout."
-
-        elif any(w in cart_text for w in ["coke", "chips", "soda", "popcorn", "snack", "beer", "whiskey"]):
-            mission_type = "Late Night Craving & Social Gathering"
-            archetype = "Young Professional / Social Host"
-            confidence_score = 0.85
-            touchpoint = "Homepage Ribbon & Checkout Prompts"
-            explanation = "Impulse / social mission detected. Surface electronics chargers or desk accessories with fast delivery."
-
-        elif any(w in cart_text for w in ["diaper", "wipes", "baby", "lotion", "formula"]):
-            mission_type = "Baby Care & Household Urgency"
-            archetype = "Parent with Young Kids"
-            confidence_score = 0.94
-            touchpoint = "Need-Based Collections & Checkout"
-            explanation = "High-urgency parental mission. Surface dermatologist-tested baby products or desk cleaning wipes."
-
-        elif any(w in cart_text for w in ["cable", "charger", "battery", "plug", "tech"]):
-            mission_type = "Emergency Tech & Workstation Urgent Need"
-            archetype = "Remote Worker / Tech Professional"
-            confidence_score = 0.90
-            touchpoint = "Search Boost & Checkout Nudges"
-            explanation = "Urgent utility mission. Guarantee 10-minute delivery and 6-month instant replacement warranty."
-
-        return {
-            "mission_type": mission_type,
-            "household_archetype": archetype,
-            "confidence_score": confidence_score,
-            "recommended_touchpoint": touchpoint,
-            "intent_explanation": explanation,
-            "temporal_context": time_of_day,
-            "parsed_cart_tokens": cart_items,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
-
-
-

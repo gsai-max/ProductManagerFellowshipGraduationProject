@@ -1,10 +1,10 @@
 # Blinkit Discovery Engine & AI-Native MVP — Edge Cases and Failure Modes
 
-This document catalogs the corner cases, failure modes, and mitigation strategies across every layer of the Blinkit Category Exploration project. It is organized by system layer as defined in [architecture.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/architecture.md) and covers both **Part 1 (AI Discovery Engine)** and **Part 2 (Product Strategy & Production AI-Native MVP)**.
+This document catalogs the corner cases, failure modes, and mitigation strategies across every layer of the Blinkit Category Exploration project. It is organized by system layer as defined in [architecture.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/architecture.md).
 
 ---
 
-## 1. Data Collection Layer — Scrapers (Part 1)
+## 1. Data Collection Layer — Scrapers
 
 This offline layer scrapes public reviews, discussions, and social media posts from 10 platforms.
 
@@ -32,7 +32,7 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 
 ---
 
-## 2. Data Processing Layer — Clean, Deduplicate, Enrich (Part 1)
+## 2. Data Processing Layer — Clean, Deduplicate, Enrich
 
 ### 2.1 Text Cleaning & Normalization
 * **Mixed Scripts:** Preserve currency (₹), ratings (★), and transliterated Hinglish words; remove URLs and HTML.
@@ -49,7 +49,7 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 
 ---
 
-## 3. LLM Analysis Layer — Theme Extraction & Insight Synthesis (Part 1)
+## 3. LLM Analysis Layer — Theme Extraction & Insight Synthesis
 
 ### 3.1 Theme Extraction
 * **Hallucination Prevention:** **Quote Grounding Assertion** — themes must map to verifiable `record_id` substrings.
@@ -61,15 +61,15 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 
 ---
 
-## 4. FastAPI Backend & API Layer (Part 1 & Part 2)
+## 4. FastAPI Backend & API Layer
 
 * **Startup Readiness:** Validate `LLM_API_KEY` on startup via `pydantic-settings`.
 * **Graceful Fallback:** Serve static pre-computed cache (`data/insights/`) if pipeline is offline.
-* **CORS Middleware:** Configure CORS `allow_origin_regex` to support both Part 1 and Part 2 Vercel domains.
+* **CORS Middleware:** Configure CORS `allow_origin_regex` to support legitimate Vercel domains.
 
 ---
 
-## 5. React Frontend Dashboard & Design System (Part 1 & Part 2)
+## 5. React Frontend Dashboard & Design System
 
 * **Design System Assets:** UI components anchored in `designsystem/` (`screen.png`, `screen1.png`, `screen2.png`, `screen3.png`).
 * **Empty/Loading States:** Animated shimmer skeletons and designed empty state components.
@@ -77,66 +77,17 @@ This offline layer scrapes public reviews, discussions, and social media posts f
 
 ---
 
-## 6. Part 2 Edge Cases: Product Strategy & Opportunity Engine
-
-This layer translates validated Part 1 behavioral insights into structured opportunity frames and prioritized product features.
-
-### 6.1 HMW Opportunity Framing Engine
+## 6. Deployment & Hosting Edge Cases
 
 | Category | Edge Case | Description | Severity | Mitigation Strategy |
 |:---|:---|:---|:---|:---|
-| **Disconnection** | Friction Node Has Zero HMW Templates | A behavior graph friction node does not match pre-defined HMW generation rules. | **MEDIUM** | **Fallback HMW Template:** Apply general cross-category trial frame: `"How might we lower risk perception for [User Archetype] when exploring non-grocery categories?"` |
-| **Scope Creep** | Overly Broad HMW Statement | HMW statement is too generic (e.g., "How might we make Blinkit better?"). | **HIGH** | **Strict HMW Grammar Schema:** Enforce structure: `How might we [action] for [archetype] so that [desired outcome]?` Validator rejects invalid schemas. |
-
-### 6.2 RICE Prioritization Matrix Engine
-
-| Category | Edge Case | Description | Severity | Mitigation Strategy |
-|:---|:---|:---|:---|:---|
-| **Division by Zero** | Effort Set to 0 | A user or model inputs 0 person-weeks for effort. | **CRITICAL** | **Minimum Effort Bound:** Enforce `effort = max(0.5, input_effort)` to prevent zero-division runtime errors. |
-| **Subjective Bias** | Unjustified High Impact Score | Feature assigned an Impact of 5.0 without supporting confidence evidence. | **HIGH** | **Confidence Scaling:** Multiply Confidence score (%) directly into the numerator: $\text{RICE} = \frac{\text{Reach} \times \text{Impact} \times \text{Confidence}}{\text{Effort}}$. Low confidence automatically penalizes inflated impact scores. |
-| **Score Ties** | Identical RICE Scores | Two features yield the exact same RICE score (e.g. 850 vs 850). | **LOW** | **Multi-Tier Tie Breaker:** Secondary sort by **Reach** (higher reach wins), tertiary sort by **Effort** (lower effort wins). |
+| **CORS Block** | Vercel URL Blocked by Backend | The deployed Vercel frontend URL returns `403 Forbidden` from the Render FastAPI backend due to strict CORS. | **HIGH** | **Regex CORS Middleware:** In `src/app/api_server.py`, set `allow_origin_regex=r"https://.*\.vercel\.app"` so all legitimate Vercel subdomains can connect. |
+| **Stale Cache** | Browser Serves Stale Frontend Build | User visits the link but browser serves cached asset files from earlier builds. | **LOW** | **Vercel Cache Headers:** Ensure `vercel.json` contains `Cache-Control: public, max-age=0, must-revalidate` for `index.html`. |
 
 ---
 
-## 7. Part 2 Edge Cases: Production AI-Native MVP Feature (AI Category Assistant)
+*Derived from [architecture.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/architecture.md), [context.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/context.md), and [deployment-plan.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/deployment-plan.md)*
 
-This section details edge cases for the user-facing **AI Category Discovery Assistant** widget and dynamic trial recommendation engine.
-
-### 7.1 Cold-Start & Inventory Availability
-
-| Category | Edge Case | Description | Severity | Mitigation Strategy |
-|:---|:---|:---|:---|:---|
-| **Empty Cart** | Cold-Start Cart Experience | User opens the AI Assistant widget with an empty shopping cart. | **MEDIUM** | **Trending Category Baseline:** Serve top non-grocery trending discovery items based on universal Habit Loop data (e.g., "Popular Personal Care items for 10-min delivery"). |
-| **Out-of-Stock** | Recommended SKU Not in Local Dark Store | AI assistant recommends a pet treat or beauty item that is out of stock in the user's specific dark store (local warehouse). | **HIGH** | **Real-Time Inventory Pre-Check:** Query dark store stock status before rendering nudge cards. Filter out any SKU with inventory count $= 0$. |
-| **Irrelevant Nudges** | Inappropriate Category Recommendation | Recommending pet supplies to non-pet owners, or baby products to single users. | **HIGH** | **Social Proof & Risk-Free Tagging:** Tag recommendations with social proof ("92% of grocery buyers also tried this") and include an explicit "Not interested in this category" dismiss option. |
-
-### 7.2 Nudge Fatigue & UX Controls
-
-| Category | Edge Case | Description | Severity | Mitigation Strategy |
-|:---|:---|:---|:---|:---|
-| **Nudge Blindness** | User Frequently Dismisses Assistant | User closes the AI Category Assistant widget repeatedly across sessions. | **MEDIUM** | **Automated Backoff Suppressor:** If a user closes the assistant 3 consecutive times without clicking a recommendation, auto-suppress the widget for 7 days. Track dismiss count in `localStorage`. |
-| **Checkout Friction** | Discovery Nudge Delays Order Placement | Assistant modal pops up at checkout, increasing cart abandonment rate. | **CRITICAL** | **Contextual Placement Rules:** Render assistant as an inline non-intrusive card *below* cart items, never as a blocking modal popup. Monitor guardrail metric (Cart Abandonment $\le 2\%$). |
-
----
-
-## 8. Dual-Link Deployment & Isolation Edge Cases
-
-This section details edge cases related to preserving the **Part 1 Live Link** while deploying **Part 2** independently.
-
-| Category | Edge Case | Description | Severity | Mitigation Strategy |
-|:---|:---|:---|:---|:---|
-| **CORS Block** | New Part 2 Vercel URL Blocked by Backend | The newly deployed Part 2 Vercel frontend URL returns `403 Forbidden` from the Render FastAPI backend due to strict CORS. | **HIGH** | **Regex CORS Middleware:** In `src/app/api_server.py`, set `allow_origin_regex=r"https://.*\.vercel\.app"` so all legitimate Vercel subdomains (both Part 1 and Part 2) can connect. |
-| **Link Overwrite** | Accidental Override of Part 1 Live URL | Developer deploys Part 2 code directly to the existing Vercel project (`product-manager-fellowship-graduati`), breaking the live Part 1 link. | **CRITICAL** | **Strict Vercel Project Separation:** Maintain two distinct Vercel projects: Project 1 (`product-manager-fellowship-graduati`) for Part 1, and Project 2 (`blinkit-category-discovery-mvp`) for Part 2. |
-| **Stale Cache** | Browser Serves Stale Frontend Build | User visits Part 2 link but browser serves cached asset files from earlier builds. | **LOW** | **Vercel Cache Headers:** Ensure `vercel.json` contains `Cache-Control: public, max-age=0, must-revalidate` for `index.html`. |
-
----
-
-## 9. A/B Experimentation & Telemetry Edge Cases
-
-| Category | Edge Case | Description | Severity | Mitigation Strategy |
-|:---|:---|:---|:---|:---|
-| **Sample Size** | Insignificant Variant Traffic | Early rollout phase has < 100 users, leading to misleading conversion percentages. | **HIGH** | **Minimum Sample Threshold:** Require $N \ge 1,000$ active users per variant before calculating statistical significance ($p < 0.05$). Display "Sample size accumulating" badge until threshold is reached. |
-| **Novelty Effect** | Initial Spike in Clicks | Click-through rate spikes during day 1 due to widget novelty, then decays. | **MEDIUM** | **14-Day Observation Window:** Measure North Star Metric (`% MAC purchasing from ≥ 1 new category/month`) over a minimum 14-day rolling window to smooth out initial novelty bias. |
 
 ---
 

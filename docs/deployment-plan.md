@@ -1,39 +1,28 @@
-# Production Deployment Guide: Blinkit AI Discovery Engine & AI-Native MVP
+# Production Deployment Guide: Blinkit AI Discovery Engine
 
-This document provides a comprehensive, step-by-step guide for deploying, configuring, securing, and maintaining the **Blinkit Category Exploration Project**. It aligns directly with [context.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/context.md), [architecture.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/architecture.md), and [implementation-plan.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/implementation-plan.md).
-
----
-
-## 1. Executive Deployment Strategy & Dual-Link Isolation Policy
-
-To guarantee continuous stability and avoid breaking existing fellowship evaluation setups, the project strictly enforces a **Dual-Link Isolated Deployment Architecture**:
-
-> [!IMPORTANT]
-> **Production Deployment Policy:**
-> - **Part 1 Live Link (UNTOUCHED / PRESERVED):** `https://product-manager-fellowship-graduati.vercel.app/`  
->   *(Serves Part 1 AI Discovery Engine, 10-channel analysis, Behavior Graph, 6 AI Agents, and Multi-LLM Consensus report. This link will NOT be clubbed, modified, or disturbed).*
-> - **Part 2 Live Link (SEPARATE DEDICATED MVP DEPLOYMENT):** A distinct, isolated Vercel project deployment (e.g., `https://blinkit-category-discovery-mvp.vercel.app/`).  
->   *(Serves Part 2 AI-Native MVP feature, AI Category Discovery Assistant widget, RICE matrix strategy, and A/B test telemetry).*
+This document provides a comprehensive, step-by-step guide for deploying, configuring, securing, and maintaining the **Blinkit AI Discovery Engine Project**. It aligns directly with [context.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/context.md), [architecture.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/architecture.md), and [implementation-plan.md](file:///c:/Nextleap%20Projects%20Git/ProductManagerFellowshipGraduationProject/docs/implementation-plan.md).
 
 ---
 
-## 2. Decoupled Deployment Topology
+## 1. Executive Deployment Strategy
+
+The application is deployed as a high-availability platform consisting of a decoupled Python FastAPI backend service and a Vite React frontend:
+
+> **Live Production Platform:** [https://blinkit-discovery-engine.vercel.app/](https://blinkit-discovery-engine.vercel.app/)
+
+---
+
+## 2. Deployment Topology
 
 ```mermaid
 graph TD
-    subgraph Part1_Live [Part 1 Live Production Link - UNTOUCHED]
-        URL1[https://product-manager-fellowship-graduati.vercel.app/]
-        Vercel1[Vercel Project 1: Part 1 Intelligence Dashboard]
+    subgraph Live_Frontend [Production Vercel Frontend]
+        URL1[https://blinkit-discovery-engine.vercel.app/]
+        Vercel1[Vercel Project: Executive Intelligence Dashboard]
         URL1 --> Vercel1
     end
 
-    subgraph Part2_Live [Part 2 Live Production Link - SEPARATE MVP DEPLOYMENT]
-        URL2[https://blinkit-category-discovery-mvp.vercel.app/]
-        Vercel2[Vercel Project 2: Part 2 AI-Native MVP App]
-        URL2 --> Vercel2
-    end
-
-    subgraph Backend_Cloud [Shared / Decoupled Production Backend]
+    subgraph Backend_Cloud [Decoupled Production Backend]
         RenderAPI[Render / Railway FastAPI REST Server /api/v1]
         Groq[Groq Llama 3.1 8B Instant API]
         HF[HuggingFace Llama 3.2 3B API]
@@ -41,7 +30,6 @@ graph TD
     end
 
     Vercel1 -->|REST API Requests| RenderAPI
-    Vercel2 -->|REST API Requests| RenderAPI
     RenderAPI --> Groq
     RenderAPI --> HF
     RenderAPI --> Chroma
@@ -50,8 +38,6 @@ graph TD
 ---
 
 ## 3. Environment Variables & Credentials Matrix
-
-Ensure environment variables are configured independently for Part 1 and Part 2.
 
 ### 3.1 Backend Environment Variables (Render / Railway)
 
@@ -67,11 +53,8 @@ Ensure environment variables are configured independently for Part 1 and Part 2.
 
 ### 3.2 Frontend Environment Variables
 
-* **Part 1 Vercel Project (`product-manager-fellowship-graduati`):**
+* **Vercel Project:**
   - `VITE_API_URL` = `https://<your-backend-app>.onrender.com/api/v1`
-* **Part 2 Vercel Project (`blinkit-category-discovery-mvp`):**
-  - `VITE_API_URL` = `https://<your-backend-app>.onrender.com/api/v1`
-  - `VITE_APP_MODE` = `mvp`
 
 ---
 
@@ -83,26 +66,21 @@ Ensure environment variables are configured independently for Part 1 and Part 2.
 3. Set environment variables (`GROQ_API_KEY`, `LLM_MODEL`).
 4. Deploy and capture backend REST API URL (`https://<backend-service>.onrender.com`).
 
-### Step 2: Part 1 Frontend (Preserved Link)
-* **Vercel Project Name:** `product-manager-fellowship-graduati`
-* **Production URL:** `https://product-manager-fellowship-graduati.vercel.app/`
-* **Status:** Preserved and untouched.
-
-### Step 3: Part 2 MVP Frontend (Separate New Deployment)
+### Step 2: Frontend Deployment (Vercel)
 1. Log into [Vercel.com](https://vercel.com) and click **Add New Project**.
-2. Import the GitHub repository and select the target build options for the MVP application interface (`frontend/`).
-3. Name the new Vercel project distinctively (e.g. `blinkit-category-discovery-mvp`).
-4. Configure environment variable: `VITE_API_URL=https://<backend-service>.onrender.com/api/v1`.
-5. Deploy to generate the dedicated Part 2 MVP link.
+2. Import the GitHub repository and select the frontend directory (`frontend/`).
+3. Set environment variable: `VITE_API_URL=https://<backend-service>.onrender.com/api/v1`.
+4. Deploy to generate the production link (`https://blinkit-discovery-engine.vercel.app/`).
 
 ---
 
 ## 5. Verification & Health Monitoring
 
-1. **Verify Part 1 Link:** Visit `https://product-manager-fellowship-graduati.vercel.app/` and confirm Part 1 Intelligence Dashboard functions without disruption.
-2. **Verify Part 2 MVP Link:** Visit the new Part 2 Vercel URL and confirm the AI Category Assistant MVP widget, RICE matrix, and experiment telemetry load cleanly.
-3. **API CORS Verification:** Ensure `fastapi.middleware.cors.CORSMiddleware` in `src/app/api_server.py` permits requests from both Vercel domains.
+1. **Verify Live Link:** Visit `https://blinkit-discovery-engine.vercel.app/` and confirm the Executive Intelligence Dashboard, research question filters, behavior graph, and interactive sandbox function without disruption.
+2. **API Health Check:** Query `https://<backend-service>.onrender.com/health` to confirm healthy server status.
+3. **API CORS Verification:** Ensure `fastapi.middleware.cors.CORSMiddleware` in `src/app/api_server.py` permits requests from Vercel subdomains.
 
 ---
 
-*Document updated for NextLeap PM Fellowship Graduation Project · Dual-Link Deployment Protocol*
+*Document updated for NextLeap PM Fellowship Graduation Project*
+
