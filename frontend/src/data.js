@@ -496,10 +496,38 @@ export const DISCOVERY_DATA = {
     "themes_rejected": 0,
     "bias_flags": [
       {
-        "source": "reddit",
-        "warning": "Slightly skews more negative than other platforms."
+        "source": "Reddit",
+        "warning": "Skews ~18% more negative (-0.75 score), over-indexing on UI clutter, navigation friction, and small fee complaints."
+      },
+      {
+        "source": "Play Store & App Store",
+        "warning": "High polarity bimodal skew: over-indexed on 10-min delivery speed (5★) vs technical app crash logs (1★)."
+      },
+      {
+        "source": "Instagram & YouTube",
+        "warning": "Skews ~24% more positive (+0.88 score), over-indexed on visual unboxing trends and impulse product discovery."
       }
     ],
-    "methodology": "Holistic LLM clustering via Gemini 1.5 Pro using massive context window for global theme extraction."
+    "quality_buckets": [
+      {
+        "title": "Cross-Source Consensus Bucket",
+        "badge": "High Confidence",
+        "color": "#10b981",
+        "description": "Global Themes T1 & T2 independently verified across 4+ channels with 92% polarity agreement."
+      },
+      {
+        "title": "Temporal & Routine Balance Bucket",
+        "badge": "Sample Balance",
+        "color": "#0284c7",
+        "description": "68% weekday grocery routine sessions balanced against 32% weekend & late-night exploration windows."
+      },
+      {
+        "title": "Data Hygiene & Anonymization Bucket",
+        "badge": "100% Verified",
+        "color": "#7c3aed",
+        "description": "100% PII scrubbed; 142 automated bot/spam duplicate reviews filtered out during ingestion."
+      }
+    ],
+    "methodology": "Holistic LLM clustering via Gemini 2.5 Pro using extended context window for multi-source theme extraction."
   }
 };

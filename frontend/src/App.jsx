@@ -943,22 +943,44 @@ export default function App() {
                     </div>
                   </div>
 
-                  {DISCOVERY_DATA.validation.bias_flags && DISCOVERY_DATA.validation.bias_flags.length > 0 && (
-                    <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--negative)', padding: '1.5rem', borderRadius: '8px', textAlign: 'left' }}>
-                      <h3 style={{ color: 'var(--negative)', marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
-                        <AlertTriangle size={20} /> Bias Flags Detected
+                  {/* Validation Buckets Grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem', textAlign: 'left' }}>
+                    {/* Bucket 1: Platform Skew & Bias Flags */}
+                    <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '1.5rem', borderRadius: '10px' }}>
+                      <h3 style={{ color: 'var(--negative)', marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                        <AlertTriangle size={20} /> Platform Skew & Bias Flags
                       </h3>
-                      <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--text-primary)' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                         {DISCOVERY_DATA.validation.bias_flags.map((flag, fIdx) => (
-                          <li key={fIdx}>
-                            <strong>{flag.source}</strong>: {flag.warning}
-                          </li>
+                          <div key={fIdx} style={{ fontSize: '0.9rem', color: 'var(--text-primary)', background: '#fff', padding: '0.75rem 1rem', borderRadius: '6px', borderLeft: '3px solid var(--negative)', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                            <strong style={{ color: 'var(--negative)' }}>{flag.source}:</strong> {flag.warning}
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
-                  )}
 
-                  <p style={{ color: 'var(--text-secondary)', marginTop: '1rem' }}>
+                    {/* Bucket 2: Data Quality & Sampling Buckets */}
+                    <div style={{ background: 'rgba(12, 131, 31, 0.05)', border: '1px solid rgba(12, 131, 31, 0.25)', padding: '1.5rem', borderRadius: '10px' }}>
+                      <h3 style={{ color: 'var(--primary)', marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                        <ShieldCheck size={20} /> Data Quality & Integrity Buckets
+                      </h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                        {(DISCOVERY_DATA.validation.quality_buckets || []).map((bucket, qIdx) => (
+                          <div key={qIdx} style={{ fontSize: '0.9rem', color: 'var(--text-primary)', background: '#fff', padding: '0.75rem 1rem', borderRadius: '6px', borderLeft: `3px solid ${bucket.color || 'var(--primary)'}`, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                              <strong style={{ color: bucket.color || 'var(--primary)' }}>{bucket.title}</strong>
+                              <span style={{ fontSize: '0.75rem', background: `${bucket.color}15`, color: bucket.color, padding: '0.15rem 0.5rem', borderRadius: '12px', fontWeight: 700 }}>
+                                {bucket.badge}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{bucket.description}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <p style={{ color: 'var(--text-secondary)', marginTop: '1.5rem' }}>
                     <strong>Methodology:</strong> {DISCOVERY_DATA.validation.methodology}
                   </p>
                 </div>
